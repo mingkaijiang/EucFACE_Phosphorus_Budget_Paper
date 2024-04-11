@@ -352,9 +352,9 @@ make_c_flux_summary_table <- function(norm,
                       values=c("aCO2"="blue3",
                                "eCO2"="red2"))
   
-  pdf(paste0("output/summary_tables/C_flux_comparison.pdf"))
-  plot(p1)
-  dev.off()
+  #pdf(paste0("output/summary_tables/C_flux_comparison.pdf"))
+  #plot(p1)
+  #dev.off()
   
   ##### output tables
   return(treatDF)

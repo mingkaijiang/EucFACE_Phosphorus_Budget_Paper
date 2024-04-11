@@ -24,9 +24,9 @@ calculate_understorey_P_retranslocation_flux <- function (tflux,
     p1 <- ggplot(plotDF, aes(x=Ring, y=understorey_p_retrans_coef, group=Method)) +
         geom_bar(aes(fill=Method), position="dodge", stat="identity")
     
-    pdf("output/checks/understorey_P_retranslocation_comparison.pdf")
-    plot(p1)
-    dev.off()
+    #pdf("output/checks/understorey_P_retranslocation_comparison.pdf")
+    #plot(p1)
+    #dev.off()
     
     
     ### prepare retranslocation flux

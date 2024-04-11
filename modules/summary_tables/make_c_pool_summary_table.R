@@ -203,9 +203,9 @@ make_c_pool_summary_table <- function(norm,
                         values=c("aCO2"="blue3",
                                  "eCO2"="red2"))
     
-    pdf(paste0("output/checks/C_pool_comparison.pdf"))
-    plot(p1)
-    dev.off()
+    #pdf(paste0("output/checks/C_pool_comparison.pdf"))
+    #plot(p1)
+    #dev.off()
     
     ##### output tables
     return(treatDF)

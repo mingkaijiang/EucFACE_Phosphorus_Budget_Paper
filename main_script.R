@@ -93,8 +93,7 @@ microbial_c_pool <- read.csv("data/processed/microbial_c_pool.csv", header=T)
 #### Soil mycorrhizal pool
 #### But we don't have a P concentration for it and 
 #### therefore it's not included in the P budget 
-# delete
-#mycorrhizal_c_pool <- read.csv("data/processed/mycorrhizal_c_pool.csv", header=T)
+mycorrhizal_c_pool <- read.csv("data/processed/mycorrhizal_c_pool.csv", header=T)
 
 #### Coarse root C pool 
 coarse_root_c_pool <- read.csv("data/processed/coarse_root_c_pool.csv", header=T)
@@ -147,7 +146,7 @@ coarse_root_c_flux <- read.csv("data/processed/coarse_root_c_production_flux.csv
 ########################################################################################## 
 ########################################################################################## 
 #####
-##### Step 2: Generate P concentrations
+##### Step 2: Generate P concentrations for all variables based on raw data
 #####
 process_p_concentration_variables()
 
@@ -158,28 +157,19 @@ process_p_concentration_variables()
 ###              10 - 30 cm
 ###              30 - 60 cm
 soil_p_concentration <- read.csv("data/processed/soil_p_concentration.csv", header=T)
-
-
-### 
 soil_inorganic_p_concentration <- read.csv("data/processed/soil_inorganic_p_concentration.csv", header=T)
-
-### 
 soil_organic_p_concentration <- read.csv("data/processed/soil_organic_p_concentration.csv", header=T)
-
 
 #### Soil phosphate conc, this returns % of P, not % of PO4
 soil_phosphate_concentration <- read.csv("data/processed/soil_phosphate_concentration.csv", header=T)
-
 
 #### Microbial P conc.
 #### Top 60 cm
 microbial_p_concentration <- read.csv("data/processed/microbial_p_concentration.csv", header=T)
 
-
 #### Hedley fractionation dataset
 ### top 10 cm
 soil_hedley_p_concentration <- read.csv("data/processed/soil_hedley_p_concentration.csv", header=T)
-
 
 ############################## Plant ###############################
 #### Canopy P conc.
@@ -188,32 +178,26 @@ canopy_p_concentration <- read.csv("data/processed/canopy_p_concentration.csv", 
 #### Leaf litter P conc. 
 leaflitter_p_concentration <- read.csv("data/processed/leaflitter_p_concentration.csv", header=T)
 
-
 #### Wood P conc. 
 sapwood_p_concentration <- read.csv("data/processed/sapwood_p_concentration.csv", header=T)
-
 
 #### Frass P conc.
 ### frass flux needs to added to canopy P demand each year.
 frass_p_concentration <- read.csv("data/processed/frass_p_concentration.csv", header=T)
 
-
 #### Fineroot P conc.
 fineroot_p_concentration <- read.csv("data/processed/fineroot_p_concentration.csv", header=T)
-
 
 #### Understorey P conc.
 understorey_p_concentration <- read.csv("data/processed/understorey_p_concentration.csv", header=T)
 
-
 #### Understorey litter P conc.
 understorey_litter_p_concentration <- read.csv("data/processed/understorey_litter_p_concentration.csv", header=T)
-
 
 ##### Calculate retranslocation coefficients
 plant_p_retranslocation_coefficients <- read.csv("data/processed/plant_p_retranslocation_coefficients.csv", header=T)
 
-### plotting script
+### plotting script for supplementary figure 6
 plot_plant_resorption_coefficients(plant_p_retranslocation_coefficients)
 
 ########################################################################################## 
@@ -222,23 +206,19 @@ plot_plant_resorption_coefficients(plant_p_retranslocation_coefficients)
 ##### Step 4: Generating P pools and fluxes
 #####
 ############################## P Pools ###############################
-
 #### Soil P pool - top 60 cm
 soil_p_pool <- make_soil_p_pool(p_conc=soil_p_concentration,
                                 bk_density=soil_bulk_density)
-
 write.csv(soil_p_pool, "data/processed/soil_p_pool.csv", row.names=F)
 
 ### Soil inorganic pool - 60 cm
 soil_inorganic_p_pool <- make_soil_inorganic_p_pool(p_conc=soil_inorganic_p_concentration,
                                                     bk_density=soil_bulk_density)
-
 write.csv(soil_inorganic_p_pool, "data/processed/soil_inorganic_p_pool.csv", row.names=F)
 
 ### soil organic pool - 60 cm
 soil_organic_p_pool <- make_soil_organic_p_pool(p_conc=soil_organic_p_concentration,
                                                 bk_density=soil_bulk_density)
-
 write.csv(soil_organic_p_pool, "data/processed/soil_organic_p_pool.csv", row.names=F)
 
 #### Soil phosphate pool
@@ -250,7 +230,6 @@ write.csv(soil_organic_p_pool, "data/processed/soil_organic_p_pool.csv", row.nam
 #### So this pool is more readily available to plants. 
 soil_phosphate_pool <- make_soil_phosphate_pool(p_conc=soil_phosphate_concentration,
                                                 bk_density=soil_bulk_density)
-
 write.csv(soil_phosphate_pool, "data/processed/soil_phosphate_pool.csv", row.names=F)
 
 
@@ -259,24 +238,18 @@ write.csv(soil_phosphate_pool, "data/processed/soil_phosphate_pool.csv", row.nam
 soil_p_pool_hedley <- make_soil_p_pool_hedley(p_conc=soil_hedley_p_concentration,
                                               bk_density=soil_bulk_density,
                                               soil_p=soil_p_pool)
-
 write.csv(soil_p_pool_hedley, "data/processed/soil_p_pool_hedley.csv", row.names=F)
-
 
 #### Microbial P pool 
 #### Top 60 cm
 microbial_p_pool <- make_microbial_p_pool(p_conc=microbial_p_concentration,
                                           bk_density=soil_bulk_density)
-
 write.csv(microbial_p_pool, "data/processed/microbial_p_pool.csv", row.names=F)
-
 
 #### Canopy P pool - only for green leaves
 canopy_p_pool <- make_canopy_p_pool(p_conc=canopy_p_concentration,
                                     biom=canopy_c_pool)
-
 write.csv(canopy_p_pool, "data/processed/canopy_p_pool.csv", row.names=F)
-
 
 ## calculate change in leaf pool as well as litterfall
 dLEAF_litter_flux <- make_dLAI_litter(litter=leaflitter_c_production_flux, 
@@ -284,24 +257,17 @@ dLEAF_litter_flux <- make_dLAI_litter(litter=leaflitter_c_production_flux,
 canopy_p_pool_new <- make_canopy_p_pool_smoothed(biom=dLEAF_litter_flux)
 write.csv(canopy_p_pool_new, "data/processed/canopy_p_pool_new.csv", row.names=F)
 
-
-
-
 ### Forest floor leaf litter pool
 leaflitter_p_pool <- make_leaflitter_p_pool(p_conc=leaflitter_p_concentration,
                                             c_pool=leaflitter_c_pool,
                                             c_frac=c_fraction)
-
 write.csv(leaflitter_p_pool, "data/processed/leaflitter_p_pool.csv", row.names=F)
-
 
 #### Wood P pool 
 wood_p_pool <- make_wood_p_pool(p_conc=sapwood_p_concentration,
                                 c_pool=wood_c_pool,
                                 case_consideration = "total")
-
 write.csv(wood_p_pool, "data/processed/wood_p_pool.csv", row.names=F)
-
 
 sapwood_p_pool <- make_wood_p_pool(p_conc=sapwood_p_concentration,
                                    c_pool=wood_c_pool,
@@ -313,19 +279,16 @@ heartwood_p_pool <- make_wood_p_pool(p_conc=sapwood_p_concentration,
                                      case_consideration = "heartwood")
 write.csv(heartwood_p_pool, "data/processed/heartwood_p_pool.csv", row.names=F)
 
-
 #### Standing dead p pool
 standing_dead_p_pool <- make_wood_p_pool(p_conc=sapwood_p_concentration,
                                          c_pool=standing_dead_c_pool,
                                          case_consideration = "total")
 write.csv(standing_dead_p_pool, "data/processed/standing_dead_p_pool.csv", row.names=F)
 
-
 #### Fine root P biomass pool
 fineroot_p_pool <- make_fineroot_p_pool(p_conc=fineroot_p_concentration,
                                         c_pool=fineroot_c_pool)
 write.csv(fineroot_p_pool, "data/processed/fineroot_p_pool.csv", row.names=F)
-
 
 #### Understorey P pool, assume both species contributed equally
 #### Also because p_conc and c_pool do not match in time,
@@ -339,28 +302,20 @@ understorey_p_pool <- make_understorey_p_pool(p_conc=understorey_p_concentration
                                               c_pool=understorey_c_pool,
                                               c_frac=c_fraction_ud,
                                               live_or_total = "Total")
-
 write.csv(understorey_p_pool, "data/processed/understorey_p_pool.csv", row.names=F)
 
-
-### 3.18 Coarse root P pool
+### oarse root P pool
 ### currently assuming sapwood P concentration
 coarse_root_p_pool <- make_coarse_root_p_pool(p_conc=sapwood_p_concentration,
                                               c_pool=coarse_root_c_pool,
                                               c_frac=c_fraction)
-
 write.csv(coarse_root_p_pool, "data/processed/coarse_root_p_pool.csv", row.names=F)
 
-
-
-
 ############################## P fluxes ###############################
-
 #### Soil P mineralization flux
 soil_p_mineralization <- make_soil_p_mineralization_flux(bk_density=soil_bulk_density,
                                                          fineroot_c_pool=fineroot_c_pool,
                                                          which.variable="SoilC")
-
 write.csv(soil_p_mineralization, "data/processed/soil_p_mineralization_flux.csv", row.names=F)
 
 #### Soil P leaching rate
@@ -369,18 +324,15 @@ write.csv(soil_p_mineralization, "data/processed/soil_p_mineralization_flux.csv"
 soil_p_leaching <- make_soil_p_leaching_flux()
 write.csv(soil_p_leaching, "data/processed/soil_p_leaching_flux.csv", row.names=F)
 
-
 #### Canopy production flux
 canopy_p_flux <- make_canopy_p_production(p_conc=canopy_p_concentration,
                                           c_flux=canopy_c_production_flux,
                                           c_frac=c_fraction)
 write.csv(canopy_p_flux, "data/processed/canopy_p_flux.csv", row.names=F)
 
-
 ## considered both change in LAI and litterfall
 canopy_p_flux_new <- make_canopy_p_production_new(c_flux=canopy_c_production_flux_new,
                                                   c_frac=c_fraction)
-
 write.csv(canopy_p_flux_new, "data/processed/canopy_p_flux_new.csv", row.names=F)
 
 #### Frass P production
@@ -392,7 +344,6 @@ frass_p_production <- make_frass_p_production_flux(p_conc=frass_p_concentration,
                                                    c_frac=frass_c_fraction)
 write.csv(frass_p_production, "data/processed/frass_p_production_flux.csv", row.names=F)
 
-
 #### 3.8 Litter P production flux 
 #### Literfall biomass (not C) will be calculated within the function
 #### for data points where we have C but not P, we can create a separte script
@@ -402,12 +353,9 @@ leaflitter_p_flux <- make_leaflitter_p_flux(p_conc=leaflitter_p_concentration,
                                             c_frac=c_fraction)  
 write.csv(leaflitter_p_flux, "data/processed/leaflitter_p_flux.csv", row.names=F)
 
-
-
 #### Fine root P production flux
 fineroot_p_production <- make_fineroot_p_production(p_conc=fineroot_p_concentration,
                                                     c_flux=fineroot_c_production_flux)
-
 write.csv(fineroot_p_production, "data/processed/fineroot_p_production_flux.csv", row.names=F)
 
 #### Fine root litter P production
@@ -416,15 +364,12 @@ write.csv(fineroot_p_production, "data/processed/fineroot_p_production_flux.csv"
 fineroot_litter_p_flux <- make_fineroot_litter_p_production(p_conc=fineroot_p_concentration,
                                                             c_flux=fineroot_c_production_flux,
                                                             p_retrans=retrans_froot)
-
 write.csv(fineroot_litter_p_flux, "data/processed/fineroot_litter_p_flux.csv", row.names=F)
-
 
 #### Other litterfall
 twig_litter_p_flux <- make_twiglitter_p_flux(p_conc=sapwood_p_concentration, 
                                              litter_flux=twiglitter_c_production_flux)  
 write.csv(twig_litter_p_flux, "data/processed/twig_litter_p_flux.csv", row.names=F)
-
 
 ## bark P concentration provided by Kristine
 bark_litter_p_flux <- make_barklitter_p_flux(p_conc=sapwood_p_concentration, 
@@ -436,20 +381,16 @@ seed_litter_p_flux <- make_seedlitter_p_flux(p_conc=canopy_p_concentration,
                                              litter_flux=seedlitter_c_production_flux)  
 write.csv(seed_litter_p_flux, "data/processed/seed_litter_p_flux.csv", row.names=F)
 
-
 #### Wood p flux
 wood_p_flux <- make_wood_p_production(p_conc=sapwood_p_concentration,
                                       c_flux=wood_c_production)
 write.csv(wood_p_flux, "data/processed/wood_p_flux.csv", row.names=F)
-
 
 ### Coarse root P flux
 coarse_root_p_flux <- make_coarse_root_p_flux(p_conc=sapwood_p_concentration,
                                               c_flux=coarse_root_c_flux,
                                               c_frac=c_fraction)
 write.csv(coarse_root_p_flux, "data/processed/coarse_root_p_flux.csv", row.names=F)
-
-
 
 #### Understorey production flux
 #### Here we can use either stereo camera estimate of biomass (2) or
@@ -460,116 +401,81 @@ understorey_p_flux <- make_understorey_p_flux(p_conc=understorey_p_concentration
                                               c_frac=c_fraction_ud)
 write.csv(understorey_p_flux, "data/processed/understorey_p_flux.csv", row.names=F)
 
-
 understorey_litter_p_flux <- make_understorey_litter_p_flux(p_conc=understorey_litter_p_concentration,
                                                             c_flux=understorey_c_flux_clipping,
                                                             #c_flux=understorey_litter_c_flux,
                                                             c_frac=c_fraction_ud)
-
 write.csv(understorey_litter_p_flux, "data/processed/understorey_litter_p_flux.csv", row.names=F)
 
-
-
-
 ############################## P retranslocation fluxes ###############################
-
 canopy_P_retranslocation_flux <- calculate_canopy_P_retranslocation_flux(tflux=canopy_p_flux,
                                                                          lflux=leaflitter_p_flux,
                                                                          retransDF=plant_p_retranslocation_coefficients)
-
 write.csv(canopy_P_retranslocation_flux, "data/processed/canopy_P_retranslocation_flux.csv", row.names=F)
-
-
 
 fineroot_P_retranslocation_flux <- calculate_fineroot_P_retranslocation_flux(tflux=fineroot_p_production,
                                                                              lflux=fineroot_litter_p_flux,
                                                                              retransDF=plant_p_retranslocation_coefficients)
-
 write.csv(fineroot_P_retranslocation_flux, "data/processed/fineroot_P_retranslocation_flux.csv", row.names=F)
-
-
 
 understorey_P_retranslocation_flux <- calculate_understorey_P_retranslocation_flux(tflux=understorey_p_flux,
                                                                                    lflux=understorey_litter_p_flux,
                                                                                    retransDF=plant_p_retranslocation_coefficients)
-
 write.csv(understorey_P_retranslocation_flux, "data/processed/understorey_P_retranslocation_flux.csv", row.names=F)
-
-
 
 sapwood_P_retranslocation_flux <- calculate_sapwood_P_retranslocation_flux(tflux=wood_p_flux,
                                                                            retransDF=plant_p_retranslocation_coefficients)
-
 write.csv(sapwood_P_retranslocation_flux, "data/processed/sapwood_P_retranslocation_flux.csv", row.names=F)
-
 
 
 coarseroot_P_retranslocation_flux <- calculate_coarseroot_P_retranslocation_flux(tflux=coarse_root_p_flux,
                                                                                  retransDF=plant_p_retranslocation_coefficients)
-
 write.csv(coarseroot_P_retranslocation_flux, "data/processed/coarseroot_P_retranslocation_flux.csv", row.names=F)
-
-
 
 ############################## delta P Pools ###############################
 delta_soil_p_pool <- make_yearly_delta_pool_without_depth_function(inDF=soil_p_pool, 
                                                                    var.col=4)
 write.csv(delta_soil_p_pool, "data/processed/delta_soil_p_pool.csv", row.names=F)
 
-
 delta_soil_phosphate_pool <- make_yearly_delta_pool_without_depth_function(inDF=soil_phosphate_pool, 
                                                                            var.col=4)
 write.csv(delta_soil_phosphate_pool, "data/processed/delta_soil_phosphate_pool.csv", row.names=F)
-
 
 delta_microbial_p_pool <- make_yearly_delta_pool_with_depth_function_microbe(inDF=microbial_p_pool, 
                                                                              var.col=4)
 write.csv(delta_microbial_p_pool, "data/processed/delta_microbial_p_pool.csv", row.names=F)
 
-
-
 delta_canopy_p_pool <- make_yearly_delta_pool_function(inDF=canopy_p_pool, 
                                                        var.col=3)
 write.csv(delta_canopy_p_pool, "data/processed/delta_canopy_p_pool.csv", row.names=F)
-
 
 delta_wood_p_pool <- make_yearly_delta_pool_function(inDF=wood_p_pool, 
                                                      var.col=3)
 write.csv(delta_wood_p_pool, "data/processed/delta_wood_p_pool.csv", row.names=F)
 
-
 delta_sapwood_p_pool <- make_yearly_delta_pool_function(inDF=sapwood_p_pool, 
                                                         var.col=3)
 write.csv(delta_sapwood_p_pool, "data/processed/delta_sapwood_p_pool.csv", row.names=F)
-
-
 
 delta_heartwood_p_pool <- make_yearly_delta_pool_function(inDF=heartwood_p_pool, 
                                                           var.col=3)
 write.csv(delta_heartwood_p_pool, "data/processed/delta_heartwood_p_pool.csv", row.names=F)
 
-
 delta_fineroot_p_pool <- make_yearly_delta_pool_function(inDF=fineroot_p_pool, 
                                                          var.col=3)
 write.csv(delta_fineroot_p_pool, "data/processed/delta_fineroot_p_pool.csv", row.names=F)
-
 
 delta_coarse_root_p_pool <- make_yearly_delta_pool_function(inDF=coarse_root_p_pool, 
                                                             var.col=3)
 write.csv(delta_coarse_root_p_pool, "data/processed/delta_coarse_root_p_pool.csv", row.names=F)
 
-
-
 delta_understorey_p_pool <- make_yearly_delta_pool_function(inDF=understorey_p_pool, 
                                                             var.col=3)
 write.csv(delta_understorey_p_pool, "data/processed/delta_understorey_p_pool.csv", row.names=F)
 
-
 delta_leaflitter_p_pool <- make_yearly_delta_pool_function(inDF=leaflitter_p_pool, 
                                                            var.col=3)
 write.csv(delta_leaflitter_p_pool, "data/processed/delta_leaflitter_p_pool.csv", row.names=F)
-
-
 
 ########################################################################################## 
 ########################################################################################## 
@@ -671,7 +577,6 @@ summary_table_c_flux <- make_c_flux_summary_table(norm="unnormalized",
                                                   understorey_litter_c_flux=understorey_litter_c_flux,
                                                   frass_c_production_flux=frass_c_production_flux)
 
-
 ### CP ratios
 summary_cp_ratios <- make_cp_ratios(norm="unnormalized",
                                     c_pool=summary_table_c_pool,
@@ -679,11 +584,7 @@ summary_cp_ratios <- make_cp_ratios(norm="unnormalized",
                                     c_flux=summary_table_c_flux,
                                     p_flux=summary_table_flux)
 
-
-
-
 ############################## Budget tables ###############################
-
 ### vegetation standing P stocks
 vegetation_standing_p_stock <- make_vegetation_standing_p_stock(norm="unnormalized",
                                                                 leaf=canopy_p_pool,

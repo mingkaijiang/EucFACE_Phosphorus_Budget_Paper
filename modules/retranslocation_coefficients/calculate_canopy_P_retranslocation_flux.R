@@ -34,9 +34,9 @@ calculate_canopy_P_retranslocation_flux <- function (tflux,
     p1 <- ggplot(plotDF2, aes(x=Trt, y=canopy_p_retrans_coef.mean, group=Method)) +
         geom_bar(aes(fill=Method), position="dodge", stat="identity")
     
-    pdf("output/checks/canopy_P_retranslocation_comparison.pdf")
-    plot(p1)
-    dev.off()
+    #pdf("output/checks/canopy_P_retranslocation_comparison.pdf")
+    #plot(p1)
+    #dev.off()
 
     
     
