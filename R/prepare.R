@@ -11,10 +11,6 @@ if(!dir.exists("output/checks")) {
     dir.create("output/checks")
 }
 
-#if(!dir.exists("plots_tables/covariate")) {
-#    dir.create("plots_tables/covariate")
-#}
-
 if(!dir.exists("output/summary_tables")) {
     dir.create("output/summary_tables")
 }
@@ -35,7 +31,7 @@ if(!require(HIEv)){
 }
 
 setToken(tokenfile="tokenfile.txt", quiet=TRUE)
-setToPath("download")
+setToPath("data/raw")
 
 if(!require(pacman))install.packages("pacman")
 pacman::p_load(dplyr, 

@@ -4,7 +4,7 @@
 ##### ---------------------------------------------------------------------------------------------------------##### 
 ####################################################################################################################
 ####
-#### Written by: Mingkai Jiang (m.jiang@westernsydney.edu.au)
+#### Written by: Mingkai Jiang (jiangmingkai@zju.edu.cn)
 #### 
 ####                              CODE STRUCTURE                
 ####
@@ -41,78 +41,66 @@ source("R/prepare.R")
 #####
 ##### Note: 
 ##### For all C pools, unit in g C m-2,
-##### For all C fluxes, output rate in unit of mg C m-2 d-1, 
-##### and the period over which this rate applies.
+##### For all C fluxes, output rate in unit of mg C m-2 d-1, and the period over which this rate applies.
+##### Almost all data has been processed in the previous C budget, 
+##### so here we do not report the data processing steps (process_c_variables).
+##### Instead, we are only reading the data, as below.
 
-process_c_variables()
+#### no longer needed (delete once all code check completed)
+# process_c_variables()
 
+
+############################## Read in C-related pools and fluxes ###############################
 #### Ring-specific bulk density
 ### 3 depths profile: 0 - 10,
 ###                   10 - 30,
 ###                   30 - 60 (transition)
 soil_bulk_density <- read.csv("data/processed/soil_bulk_density.csv", header=T)
 
+### GPP fluxes (estimated based on MAESPA)
 overstorey_gpp_flux <- read.csv("data/processed/overstorey_gpp_flux.csv", header=T)
-
 understorey_gpp_flux <- read.csv("data/processed/understorey_gpp_flux.csv", header=T)
-
-
-############################## Pools ###############################
 
 #### Canopy related variables (SLA, LAI, Canopy biomass)
 lai_variable <- read.csv("data/processed/lai_data.csv", header=T)
 sla_variable <- read.csv("data/processed/sla_data.csv", header=T)
-
 canopy_c_pool <- read.csv("data/processed/canopy_c_pool.csv", header=T)
-
 
 #### Wood C pool
 # we have sapwood and heartwood in the dataframe
 # excluded dead trees (before 2018)
 wood_c_pool <- read.csv("data/processed/wood_c_pool.csv", header=T)
 
-
 ### standing dead wood c pool
 ### only report the max standing dead (i.e. 2018 value)
 standing_dead_c_pool <- read.csv("data/processed/standing_dead_c_pool.csv", header=T)
-
 
 #### Fineroot pool
 ### top 60 cm
 fineroot_c_pool <- read.csv("data/processed/fineroot_c_pool.csv", header=T)
 
-
 #### Understorey aboveground biomass 
 understorey_c_pool <- read.csv("data/processed/understorey_aboveground_c_pool_camera.csv", header=T)
-
-
 
 #### Soil C content
 #### return soil C by depths
 soil_c_pool <- read.csv("data/processed/soil_c_pool.csv", header=T)
 
-
 #### Microbial C pool
 #### this pool has data only at 0-10cm depth - Cat's data
 microbial_c_pool <- read.csv("data/processed/microbial_c_pool.csv", header=T)
 
-
 #### Soil mycorrhizal pool
 #### But we don't have a P concentration for it and 
-#### therefore it's not included in the P budget
-mycorrhizal_c_pool <- read.csv("data/processed/mycorrhizal_c_pool.csv", header=T)
-
+#### therefore it's not included in the P budget 
+# delete
+#mycorrhizal_c_pool <- read.csv("data/processed/mycorrhizal_c_pool.csv", header=T)
 
 #### Coarse root C pool 
 coarse_root_c_pool <- read.csv("data/processed/coarse_root_c_pool.csv", header=T)
 
-
 #### Leaf litter pool - forest floor leaf litter pool
 leaflitter_c_pool <- read.csv("data/processed/leaflitter_c_pool.csv", header=T)
-
-
-
-############################## Fluxes ###############################
 
 #### Ltter production (leaf, twig, bark, seed)
 litter_c_production_flux <- read.csv("data/processed/litter_c_production_flux.csv", header=T)
@@ -125,27 +113,18 @@ seedlitter_c_production_flux <- read.csv("data/processed/seedlitter_c_production
 #### Frass production
 frass_c_production_flux <- read.csv("data/processed/frass_c_production_flux.csv", header=T)
 
-
-
 #### Canopy C production
-## need to add insect consumption flux back!
-
+### need to add insect consumption flux back!
 ### herbivore leaf c consumption flux
 ### extrapolated based on frass weight, leaf area consumed and sla data
 herbivory_leaf_consumption_flux <- read.csv("data/processed/herbivory_leaf_c_consumption_flux.csv", header=T)
-
-
 canopy_c_production_flux <- read.csv("data/processed/canopy_c_production_flux.csv", header=T)
-
 
 ## based on change in leaf area and litterfall
 canopy_c_production_flux_new <- read.csv("data/processed/canopy_c_production_flux_new.csv", header=T)
 
-
-
 #### Wood C production
 wood_c_production <- read.csv("data/processed/wood_c_production_flux.csv", header=T)
-
 
 #### Fineroot production
 #### root size: < 2mm in diameter, not including the intermediate roots
@@ -154,7 +133,6 @@ wood_c_production <- read.csv("data/processed/wood_c_production_flux.csv", heade
 #### we assume the production flux is small and negligible
 fineroot_c_production_flux <- read.csv("data/processed/fineroot_c_production_flux.csv", header=T)
 
-
 #### Understorey production flux 
 understorey_c_flux_clipping <- read.csv("data/processed/understorey_c_production_flux.csv", header=T)
 
@@ -162,10 +140,8 @@ understorey_c_flux_clipping <- read.csv("data/processed/understorey_c_production
 ### basically understorey dead 
 understorey_litter_c_flux <- read.csv("data/processed/understorey_litter_c_flux.csv", header=T)
 
-
 #### Coarse root C production
 coarse_root_c_flux <- read.csv("data/processed/coarse_root_c_production_flux.csv", header=T)
-
 
 
 ########################################################################################## 
@@ -173,7 +149,6 @@ coarse_root_c_flux <- read.csv("data/processed/coarse_root_c_production_flux.csv
 #####
 ##### Step 2: Generate P concentrations
 #####
-
 process_p_concentration_variables()
 
 ############################## Soil ###############################

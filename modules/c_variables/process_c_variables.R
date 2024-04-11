@@ -62,7 +62,7 @@ process_c_variables <- function() {
                                                                                 strip_area)
     
     understorey_c_pool <- make_understorey_aboveground_c_pool_camera(c_frac=c_fraction_ud,
-                                                                     plot.option=T)
+                                                                     plot.option=F)
     
     
     
