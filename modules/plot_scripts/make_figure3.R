@@ -666,7 +666,7 @@ make_figure3 <- function(inDF,
     dev.off()
     
     
-    pdf(paste0("output/si_figures/ed_figure9.pdf"), 
+    pdf(paste0("output/si_figures/ed_figure6.pdf"), 
         width=10,height=4)
     plot_grid(p3, p5, p4, ncol=3)
     
@@ -677,16 +677,16 @@ make_figure3 <- function(inDF,
     
     
     
-    ### Figure 4 alternative
-    grid.labs <- c("(a)", "(b)", "(c)")
+    ### Figure 3 alternative
+    #grid.labs <- c("(a)", "(b)", "(c)")
 
     ### pdf
-    pdf(paste0("output/figures/figure3_alt.pdf"), 
-        width=12,height=4)
-    plot_grid(p1, p15, p2, ncol=3, rel_widths=c(1.2,1.2,1.2))
-    
-    grid.text(grid.labs, x = c(0.015, 0.345, 0.68), y = c(0.95, 0.95, 0.95),
-              gp=gpar(fontsize=16, col="black", fontface="bold"))
-    dev.off()
+    #pdf(paste0("output/figures/figure3_alt.pdf"), 
+    #    width=12,height=4)
+    #plot_grid(p1, p15, p2, ncol=3, rel_widths=c(1.2,1.2,1.2))
+    #
+    #grid.text(grid.labs, x = c(0.015, 0.345, 0.68), y = c(0.95, 0.95, 0.95),
+    #          gp=gpar(fontsize=16, col="black", fontface="bold"))
+    #dev.off()
     
 }

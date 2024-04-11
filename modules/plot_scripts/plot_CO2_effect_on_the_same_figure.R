@@ -1472,7 +1472,7 @@ plot_CO2_effect_on_the_same_figure <- function(budgetDF,
     ##################
     grid.labs <- c("(a)", "(b)", "(c)")
     
-    pdf("output/si_figures/ed_figure7.pdf", 
+    pdf("output/si_figures/ed_figure4.pdf", 
         width=10, height=6)
     left_col <- plot_grid(p41, p43, ncol=1, rel_heights=c(1,0.8))
     plot_grid(left_col, p42,  ncol = 2, rel_widths = c(1, 1),
@@ -1487,7 +1487,7 @@ plot_CO2_effect_on_the_same_figure <- function(budgetDF,
     ##################
     grid.labs <- c("(a)", "(b)", "(c)", "(d)", "(e)")
     
-    pdf("output/si_figures/ed_figure8.pdf", 
+    pdf("output/si_figures/ed_figure5.pdf", 
         width=10, height=10)
     left_col <- plot_grid(p51, p53, ncol=1, rel_heights=c(1.2,0.6))
     top_row <- plot_grid(left_col, p52,  ncol = 2, rel_widths = c(1, 1),

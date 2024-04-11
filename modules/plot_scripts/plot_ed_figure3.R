@@ -1,4 +1,4 @@
-plot_ed_figure4 <- function(inDF,
+plot_ed_figure3 <- function(inDF,
                            ppool) {
     
     
@@ -137,7 +137,7 @@ plot_ed_figure4 <- function(inDF,
     grid.labs <- c("(a)", "(b)", "(c)")
     
     
-    pdf(paste0("output/si_figures/ed_figure4.pdf"),
+    pdf(paste0("output/si_figures/ed_figure3.pdf"),
         width=10,height=6)
     bot_row <- plot_grid(p2, p3, ncol=2, rel_widths = c(1., 1.))
     plot_grid(p1, bot_row,  ncol = 1,

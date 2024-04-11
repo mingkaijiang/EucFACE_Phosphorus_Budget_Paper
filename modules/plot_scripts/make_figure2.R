@@ -1,7 +1,5 @@
 make_figure2 <- function(inDF) {
     
-    
-    
     ### extract hedley data
     tmpDF <- inDF[inDF$terms%in%c("Exchangeable Pi Pool", "Exchangeable Po Pool",
                                   "Moderately labile Po Pool", #"Secondary Fe bound Pi Pool",
@@ -233,14 +231,14 @@ make_figure2 <- function(inDF) {
     grid.labs <- c("(a)", "(b)", "(c)", "(d)")
     
     ## plot 
-    pdf(paste0("output/si_figures/P_Pools_Summary_Plots.pdf"),
-        width=16,height=8)
-    bot_row <- plot_grid(p2, p3, p4, ncol=3)
-    plot_grid(p1, bot_row,  ncol = 1, rel_widths = c(1, 0.6,0.6,0.6),
-              rel_heights=c(1.2, 1, 1, 1))
-    grid.text(grid.labs,x = c(0.06, 0.05, 0.38, 0.72), y = c(0.9, 0.42, 0.42, 0.42),
-              gp=gpar(fontsize=16, col="black", fontface="bold"))
-    dev.off()
+    #pdf(paste0("output/si_figures/P_Pools_Summary_Plots.pdf"),
+    #    width=16,height=8)
+    #bot_row <- plot_grid(p2, p3, p4, ncol=3)
+    #plot_grid(p1, bot_row,  ncol = 1, rel_widths = c(1, 0.6,0.6,0.6),
+    #          rel_heights=c(1.2, 1, 1, 1))
+    #grid.text(grid.labs,x = c(0.06, 0.05, 0.38, 0.72), y = c(0.9, 0.42, 0.42, 0.42),
+    #          gp=gpar(fontsize=16, col="black", fontface="bold"))
+    #dev.off()
     
     
     

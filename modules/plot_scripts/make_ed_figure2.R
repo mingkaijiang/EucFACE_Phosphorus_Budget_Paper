@@ -1,337 +1,398 @@
-make_ed_figure2 <- function(soil_p_concentration) {
-    
-    ### Unit: all soil P (except last one) in unit of g P kg-1 soil
-    ###       Their unit must not be right. I think the units are in t ha-1,
-    ###       because otherwise soil P in 50 - 100 cm depth shouldn't be that high.
+make_ed_figure2 <- function(inDF) {
     
     
-    ### read
-    inDF <- read.csv("data/literature/P_data_China.csv")
+    ### convert unit
+    inDF$aCO2 <- inDF$aCO2 * 10
+    inDF$eCO2 <- inDF$eCO2 * 10
+    inDF$aCO2_sd <- inDF$aCO2_sd * 10
+    inDF$eCO2_sd <- inDF$eCO2_sd * 10
     
-    names(inDF)[names(inDF)=="Longtitude"] <- "Longitude"
+    ### Plot 1
+    plotDF1 <- data.frame(c(inDF$aCO2[inDF$conc.terms=="Canopy P Conc"], 
+                            inDF$eCO2[inDF$conc.terms=="Canopy P Conc"],
+                            inDF$aCO2[inDF$conc.terms=="Leaflitter P Conc"], 
+                            inDF$eCO2[inDF$conc.terms=="Leaflitter P Conc"]), 
+                          NA, NA)
+    colnames(plotDF1) <- c("mean", "sd", "Variable")
+    plotDF1$sd <- c(inDF$aCO2_sd[inDF$conc.terms=="Canopy P Conc"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Canopy P Conc"],
+                    inDF$aCO2_sd[inDF$conc.terms=="Leaflitter P Conc"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Leaflitter P Conc"])
+    plotDF1$Variable <- rep(c("Canopy", "Canopy leaflitter"), each=2)
+    plotDF1$Trt <- rep(c("aCO2", "eCO2"), 2)
+    plotDF1$pos <- with(plotDF1, mean + sd)
+    plotDF1$neg <- with(plotDF1, mean - sd)
     
-    ### as numeric
-    inDF$litterP_t_ha <- gsub("-", "", inDF$litterP_t_ha)
-    inDF$litterP_t_ha <- as.numeric(inDF$litterP_t_ha)
-    
-    ### unit conversion
-    inDF$plantP_g_m2 <- inDF$plantP_t_ha * 100.0
-    inDF$litterP_g_m2 <- inDF$litterP_t_ha * 100.0
-    inDF$soilP_g_m2 <- inDF$soilP_t_ha * 100.0 * 0.6
-    inDF$totalP_g_m2 <- with(inDF, (plantP_g_m2+litterP_g_m2+soilP_g_m2))
-    inDF$frac <- with(inDF, plantP_g_m2/soilP_g_m2)
-    
-    ### ignore data with NAs
-    #inDF <- inDF[!is.na(inDF$totalP_g_m2),]
-    
-    
-    sumDF <- summaryBy(plantP_g_m2+litterP_g_m2+soilP_g_m2+totalP_g_m2~Biome+Leaf_Form, data=inDF,
-                      FUN=c(mean,sd), na.rm=T, keep.names=T)
-    
-    
-    ### calculate soil p concentration
-    concDF <- summaryBy(soilP_0_10cm+soilP_10_20cm+soilP_20_30cm+soilP_30_50cm+soilP_50_100cm~Biome+Leaf_Form,
-                        FUN=c(mean,sd), na.rm=T, data=inDF, keep.names=T)
-    
-    pconDF <- summaryBy(PercP~Depth, FUN=c(mean,sd), data=soil_p_concentration[soil_p_concentration$Ring%in%c(2,3,6),],
-                        na.rm=T, keep.names=T)
-    
-    ### prepare density plot
-    d1 <- density(inDF$totalP_g_m2,na.rm=T)
-    d2 <- density(inDF$plantP_g_m2,na.rm=T)
-    d3 <- density(inDF$litterP_g_m2,na.rm=T)
-    d4 <- density(inDF$soilP_g_m2,na.rm=T)
-    
-    ### create data frame
-    xd1 <- data.frame(d1[c("x", "y")])
-    xd2 <- data.frame(d2[c("x", "y")])
-    xd3 <- data.frame(d3[c("x", "y")])
-    xd4 <- data.frame(d4[c("x", "y")])
-    
-    ### find probability distribution marks
-    probs <- c(0.05, 0.25, 0.5, 0.75, 0.95)
-    quantiles1 <- quantile(inDF$totalP_g_m2, prob=probs,na.rm=T)
-    quantiles2 <- quantile(inDF$plantP_g_m2, prob=probs,na.rm=T)
-    quantiles3 <- quantile(inDF$litterP_g_m2, prob=probs,na.rm=T)
-    quantiles4 <- quantile(inDF$soilP_g_m2, prob=probs,na.rm=T)
+    ### Plot 2
+    plotDF2 <- data.frame(c(inDF$aCO2[inDF$conc.terms=="Understorey P Conc"], 
+                            inDF$eCO2[inDF$conc.terms=="Understorey P Conc"],
+                            inDF$aCO2[inDF$conc.terms=="Understorey Litter P Conc"], 
+                            inDF$eCO2[inDF$conc.terms=="Understorey Litter P Conc"]), 
+                          NA, NA)
+    colnames(plotDF2) <- c("mean", "sd", "Variable")
+    plotDF2$sd <- c(inDF$aCO2_sd[inDF$conc.terms=="Understorey P Conc"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Understorey P Conc"],
+                    inDF$aCO2_sd[inDF$conc.terms=="Understorey Litter P Conc"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Understorey Litter P Conc"])
+    plotDF2$Variable <- rep(c("Understorey leaf", "Understorey leaflitter"), each=2)
+    plotDF2$Trt <- rep(c("aCO2", "eCO2"), 2)
+    plotDF2$pos <- with(plotDF2, mean + sd)
+    plotDF2$neg <- with(plotDF2, mean - sd)
     
     
-    xd1$quant <- factor(findInterval(xd1$x,quantiles1))
-    xd2$quant <- factor(findInterval(xd2$x,quantiles2))
-    xd3$quant <- factor(findInterval(xd3$x,quantiles3))
-    xd4$quant <- factor(findInterval(xd4$x,quantiles4))
+    ### Plot 3
+    plotDF3 <- data.frame(c(inDF$aCO2[inDF$conc.terms=="Fine Root P Conc"], 
+                            inDF$eCO2[inDF$conc.terms=="Fine Root P Conc"],
+                            inDF$aCO2[inDF$conc.terms=="Sapwood P Conc"], 
+                            inDF$eCO2[inDF$conc.terms=="Sapwood P Conc"]), 
+                          NA, NA)
+    colnames(plotDF3) <- c("mean", "sd", "Variable")
+    plotDF3$sd <- c(inDF$aCO2_sd[inDF$conc.terms=="Fine Root P Conc"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Fine Root P Conc"],
+                    inDF$aCO2_sd[inDF$conc.terms=="Sapwood P Conc"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Sapwood P Conc"])
+    plotDF3$Variable <- rep(c("Fine root", "Sapwood"), each=2)
+    plotDF3$Trt <- rep(c("aCO2", "eCO2"), 2)
+    plotDF3$pos <- with(plotDF3, mean + sd)
+    plotDF3$neg <- with(plotDF3, mean - sd)
+    
+    ### Plot 4
+    plotDF4 <- data.frame(c(inDF$aCO2[inDF$conc.terms=="Frass P Conc"], 
+                            inDF$eCO2[inDF$conc.terms=="Frass P Conc"]), 
+                          NA, NA)
+    colnames(plotDF4) <- c("mean", "sd", "Variable")
+    plotDF4$sd <- c(inDF$aCO2_sd[inDF$conc.terms=="Frass P Conc"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Frass P Conc"])
+    plotDF4$Variable <- rep(c("Frass"), each=2)
+    plotDF4$Trt <- rep(c("aCO2", "eCO2"), 1)
+    plotDF4$pos <- with(plotDF4, mean + sd)
+    plotDF4$neg <- with(plotDF4, mean - sd)
+    
+    
+    plotDF1 <- rbind(plotDF1, plotDF4)
+    
+    ### Plot 5
+    plotDF5 <- data.frame(c(inDF$aCO2[inDF$conc.terms=="Soil P Conc 0-10cm"], 
+                            inDF$eCO2[inDF$conc.terms=="Soil P Conc 0-10cm"],
+                            inDF$aCO2[inDF$conc.terms=="Microbial P Conc 0-10cm"], 
+                            inDF$eCO2[inDF$conc.terms=="Microbial P Conc 0-10cm"]), 
+                          NA, NA)
+    colnames(plotDF5) <- c("mean", "sd", "Variable")
+    plotDF5$sd <- c(inDF$aCO2_sd[inDF$conc.terms=="Soil P Conc 0-10cm"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Soil P Conc 0-10cm"],
+                    inDF$aCO2_sd[inDF$conc.terms=="Microbial P Conc 0-10cm"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Microbial P Conc 0-10cm"])
+    plotDF5$Variable <- rep(c("Soil 0-10cm", "Microbe 0-10cm"), each=2)
+    plotDF5$Trt <- rep(c("aCO2", "eCO2"), 2)
+    plotDF5$pos <- with(plotDF5, mean + sd)
+    plotDF5$neg <- with(plotDF5, mean - sd)
+    
+    ### Plot 6
+    plotDF6 <- data.frame(c(inDF$aCO2[inDF$conc.terms=="Soil Phosphate P Conc 0-10cm"], 
+                            inDF$eCO2[inDF$conc.terms=="Soil Phosphate P Conc 0-10cm"]), 
+                          NA, NA)
+    colnames(plotDF6) <- c("mean", "sd", "Variable")
+    plotDF6$sd <- c(inDF$aCO2_sd[inDF$conc.terms=="Soil Phosphate P Conc 0-10cm"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Soil Phosphate P Conc 0-10cm"])
+    plotDF6$Variable <- rep(c("Soil labile P 0-10cm"), each=2)
+    plotDF6$Trt <- rep(c("aCO2", "eCO2"), 1)
+    plotDF6$pos <- with(plotDF6, mean + sd)
+    plotDF6$neg <- with(plotDF6, mean - sd)
 
-    spectral.colors <- brewer.pal(6,"Spectral")
+    
+    ### plotDF7
+    plotDF7 <- data.frame(c(inDF$aCO2[inDF$conc.terms=="Soil P Conc 10-30cm"], 
+                            inDF$eCO2[inDF$conc.terms=="Soil P Conc 10-30cm"],
+                            inDF$aCO2[inDF$conc.terms=="Microbial P Conc 10-30cm"], 
+                            inDF$eCO2[inDF$conc.terms=="Microbial P Conc 10-30cm"]), 
+                          NA, NA)
+    colnames(plotDF7) <- c("mean", "sd", "Variable")
+    plotDF7$sd <- c(inDF$aCO2_sd[inDF$conc.terms=="Soil P Conc 10-30cm"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Soil P Conc 10-30cm"],
+                    inDF$aCO2_sd[inDF$conc.terms=="Microbial P Conc 10-30cm"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Microbial P Conc 10-30cm"])
+    plotDF7$Variable <- rep(c("Soil 10-30cm", "Microbe 10-30cm"), each=2)
+    plotDF7$Trt <- rep(c("aCO2", "eCO2"), 2)
+    plotDF7$pos <- with(plotDF7, mean + sd)
+    plotDF7$neg <- with(plotDF7, mean - sd)
     
     
+    ### plotDF8
+    plotDF8 <- data.frame(c(inDF$aCO2[inDF$conc.terms=="Soil P Conc 30-60cm"], 
+                            inDF$eCO2[inDF$conc.terms=="Soil P Conc 30-60cm"],
+                            inDF$aCO2[inDF$conc.terms=="Microbial P Conc 30-60cm"], 
+                            inDF$eCO2[inDF$conc.terms=="Microbial P Conc 30-60cm"]), 
+                          NA, NA)
+    colnames(plotDF8) <- c("mean", "sd", "Variable")
+    plotDF8$sd <- c(inDF$aCO2_sd[inDF$conc.terms=="Soil P Conc 30-60cm"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Soil P Conc 30-60cm"],
+                    inDF$aCO2_sd[inDF$conc.terms=="Microbial P Conc 30-60cm"], 
+                    inDF$eCO2_sd[inDF$conc.terms=="Microbial P Conc 30-60cm"])
+    plotDF8$Variable <- rep(c("Soil 30-60cm", "Microbe 30-60cm"), each=2)
+    plotDF8$Trt <- rep(c("aCO2", "eCO2"), 2)
+    plotDF8$pos <- with(plotDF8, mean + sd)
+    plotDF8$neg <- with(plotDF8, mean - sd)
     
-    ### plot
-    p1 <- ggplot(xd1, aes(x,y)) + 
-        geom_line() + 
-        geom_ribbon(aes(ymin=0, ymax=y, fill=quant)) + 
-        scale_x_continuous(breaks=c(0, 100, 500, 1000),
-                           labels=c(0, 100, 500, ">1000"),
-                           limits = c(0,1000),expand=c(0,0)) + 
-        scale_fill_manual(name="",
-                          limits=c(0:5),
-                          labels=c("0-5th", "5-25th", "25-50th", "50-75th", "75-95th", "95-100th"),
-                          values=spectral.colors,
-                          guide=guide_legend(nrow=6))+
-        geom_vline(xintercept=37.7, col="black", size = 1.0)+
+    
+    tmpDF <- rbind(plotDF5, plotDF7, plotDF8)
+    
+    plotDF9 <- tmpDF[tmpDF$Variable%in%c("Soil 0-10cm", "Soil 10-30cm", "Soil 30-60cm"),]
+    plotDF10 <- tmpDF[tmpDF$Variable%in%c("Microbe 0-10cm", "Microbe 10-30cm", "Microbe 30-60cm"),]
+    plotDF11 <- rbind(plotDF1, plotDF2, plotDF3)
+    
+    
+    ### Plotting
+    p1 <- ggplot(plotDF1, aes(x=Variable, y=mean))+
+        geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
+        geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
+                      position = position_dodge(0.9), width=0.2, size=0.4) +
+        labs(x="", y=expression("P concentration (mg " * g^-1 * ")"))+
         theme_linedraw() +
+        ylim(0,1.5)+
         theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_text(size=10),
-              axis.title.x=element_text(size=12),
-              axis.text.y=element_text(size=10),
-              axis.title.y=element_text(size=12),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.text.align = 0,
-              legend.position="right",
-              legend.box = 'vertical',
-              legend.box.just = 'left')+
-        guides(color = guide_legend(nrow=5, byrow = T))+
-        ylab("Density")+
-        xlab(expression("Total P pool (g P " * m^-2* ")"))
-    
-    
-    
-    p2 <- ggplot(xd2, aes(x,y)) + 
-        geom_line() + 
-        geom_ribbon(aes(ymin=0, ymax=y, fill=quant)) + 
-        scale_x_continuous(breaks=c(0, 1, 5, 50),
-                           labels=c(0, 1, 5, ">50"),
-                           limits = c(0,50),expand=c(0,0)) + 
-        scale_fill_manual(name="",
-                          limits=c(0:5),
-                          labels=c("0-5th", "5-25th", "25-50th", "50-75th", "75-95th", "95-100th"),
-                          values=spectral.colors,
-                          guide=guide_legend(nrow=6))+
-        geom_vline(xintercept=1.7, col="black", size = 1.0)+
-        theme_linedraw() +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_text(size=10),
-              axis.title.x=element_text(size=12),
-              axis.text.y=element_text(size=10),
-              axis.title.y=element_text(size=12),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.text.align = 0,
-              legend.position="right",
-              legend.box = 'vertical',
-              legend.box.just = 'left')+
-        guides(color = guide_legend(nrow=5, byrow = T))+
-        ylab("Density")+
-        xlab(expression("Plant P pool (g P " * m^-2* ")"))
-    
-    
-    
-    p3 <- ggplot(xd3, aes(x,y)) + 
-        geom_line() + 
-        geom_ribbon(aes(ymin=0, ymax=y, fill=quant)) + 
-        scale_x_continuous(breaks=c(0, 0.5, 1, 2),
-                           labels=c(0, 0.5, 1,">2"),
-                           limits = c(0,2),expand=c(0,0)) + 
-        scale_fill_manual(name="",
-                          limits=c(0:5),
-                          labels=c("0-5th", "5-25th", "25-50th", "50-75th", "75-95th", "95-100th"),
-                          values=spectral.colors,
-                          guide=guide_legend(nrow=6))+
-        geom_vline(xintercept=0.09, col="black", size = 1.0)+
-        theme_linedraw() +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_text(size=10),
-              axis.title.x=element_text(size=12),
-              axis.text.y=element_text(size=10),
-              axis.title.y=element_text(size=12),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.text.align = 0,
-              legend.position="right",
-              legend.box = 'vertical',
-              legend.box.just = 'left')+
-        guides(color = guide_legend(nrow=5, byrow = T))+
-        ylab("Density")+
-        xlab(expression("Litter P pool (g P " * m^-2* ")"))
-    
-    
-    
-    p4 <- ggplot(xd4, aes(x,y)) + 
-        geom_line() + 
-        geom_ribbon(aes(ymin=0, ymax=y, fill=quant)) + 
-        scale_x_continuous(breaks=c(0, 100, 500, 1000),
-                           labels=c(0, 100, 500, ">1000"),
-                           limits = c(0,1000),expand=c(0,0)) + 
-        scale_fill_manual(name="",
-                          limits=c(0:5),
-                          labels=c("0-5th", "5-25th", "25-50th", "50-75th", "75-95th", "95-100th"),
-                          values=spectral.colors,
-                          guide=guide_legend(nrow=6))+
-        geom_vline(xintercept=35.94, col="black", size = 1.0)+
-        theme_linedraw() +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_text(size=10),
-              axis.title.x=element_text(size=12),
-              axis.text.y=element_text(size=10),
-              axis.title.y=element_text(size=12),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.text.align = 0,
-              legend.position="right",
-              legend.box = 'vertical',
-              legend.box.just = 'left')+
-        guides(color = guide_legend(nrow=5, byrow = T))+
-        ylab("Density")+
-        xlab(expression("Soil P pool (g P " * m^-2* ")"))
-    
-    
-    
-    ### plot boxplot, log scale
-    p1 <- ggplot(inDF) +
-        #geom_violin(aes(x=Biome, y=log(soilP_g_m2), fill=Leaf_Form), alpha=0.4)+
-        geom_jitter(aes(x=Biome, y=log(soilP_g_m2), fill=Leaf_Form), pch=21)+
-        geom_boxplot(aes(x=Biome, y=log(soilP_g_m2), fill=Leaf_Form), alpha=0.4,outlier.alpha = 0)+
-        geom_hline(yintercept=log(37.7), col="red", size = 2)+
-        theme_linedraw() +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_text(size=12),
-              axis.title.x=element_text(size=14),
+              axis.title.x = element_text(size=10), 
+              axis.text.x = element_text(size=10),
               axis.text.y=element_text(size=12),
               axis.title.y=element_text(size=14),
               legend.text=element_text(size=12),
               legend.title=element_text(size=14),
               panel.grid.major=element_blank(),
-              legend.text.align = 0,
-              legend.position="none",
-              legend.box = 'vertical',
-              legend.box.just = 'left')+
-        scale_y_continuous(name=expression("Soil P pool (g P " * m^-2 * ")"), 
-                           breaks=c(log(1), log(10), log(100), log(1000)), 
-                           labels=c(1, 10, 100, 1000), 
-                           limits=c(log(10), 8))+
-        scale_fill_manual(name="",
-                          labels=c("needleleaf"="Needleleaf", 
-                                   "broadleaf"="Broadleaf"),
-                          values=c("green", "brown"))#+
-        #scale_x_discrete(name="Forest biome",
-        #                 breaks=c("1_tropic","2_temperate","3_boreal","4_Med"),
-        #                 labels=c("Tropics & subtropics", "Temperate", "Boreal",
-        #                          "Mediterranean"))+
-        #annotate("text", x=1, y = 8, label = paste0("n = ", nDF[1]))+
-        #annotate("text", x=2, y = 8, label = paste0("n = ", nDF[2]))+
-        #annotate("text", x=3, y = 8, label = paste0("n = ", nDF[3]))+
-        #annotate("text", x=4, y = 8, label = paste0("n = ", nDF[4]))
+              legend.position="none")+
+        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+                            labels=c(expression(aCO[2]), expression(eCO[2])))
     
-    #plot(p1)
-    
-    
-    
-    p2 <- ggplot(inDF) +
-        geom_jitter(aes(x=Biome, y=log(plantP_g_m2), fill=Leaf_Form), pch=21, alpha=0.4)+
-        geom_boxplot(aes(x=Biome, y=log(plantP_g_m2), fill=Leaf_Form), outlier.alpha = 0)+
-        geom_hline(yintercept=log(1.7), col="black", size = 1)+
+ 
+    p2 <- ggplot(plotDF2, aes(x=Variable, y=mean))+
+        geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
+        geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
+                      position = position_dodge(0.9), width=0.2, size=0.4) +
+        labs(x="", y=expression("P concentration (mg " * g^-1 * ")"))+
         theme_linedraw() +
+        ylim(0,1.0)+
         theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_text(size=12),
-              axis.title.x=element_text(size=14),
+              axis.title.x = element_text(size=10), 
+              axis.text.x = element_text(size=10),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=12),
+              legend.title=element_text(size=14),
+              panel.grid.major=element_blank(),
+              legend.position="none")+
+        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+                            labels=c(expression(aCO[2]), expression(eCO[2])))
+
+    p3 <- ggplot(plotDF3, aes(x=Variable, y=mean))+
+        geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
+        geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
+                      position = position_dodge(0.9), width=0.2, size=0.4) +
+        labs(x="", y=expression("P concentration (mg " * g^-1 * ")"))+
+        theme_linedraw() +
+        ylim(0,0.5)+
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=10), 
+              axis.text.x = element_text(size=10),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=12),
+              legend.title=element_text(size=14),
+              panel.grid.major=element_blank(),
+              legend.position="none")+
+        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+                            labels=c(expression(aCO[2]), expression(eCO[2])))
+    
+    p4 <- ggplot(plotDF4, aes(x=Variable, y=mean))+
+        geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
+        geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
+                      position = position_dodge(0.9), width=0.2, size=0.4) +
+        labs(x="", y=expression("P concentration (mg " * g^-1 * ")"))+
+        theme_linedraw() +
+        ylim(0,1.5)+
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=10), 
+              axis.text.x = element_text(size=10),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=12),
+              legend.title=element_text(size=14),
+              panel.grid.major=element_blank(),
+              legend.position="none")+
+        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+                            labels=c(expression(aCO[2]), expression(eCO[2])))
+    
+    p5 <- ggplot(plotDF5, aes(x=Variable, y=mean))+
+        geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
+        geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
+                      position = position_dodge(0.9), width=0.2, size=0.4) +
+        labs(x="", y=expression("P concentration (mg " * g^-1 * ")"))+
+        theme_linedraw() +
+        ylim(0,0.1)+
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=10), 
+              axis.text.x = element_text(size=10),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=12),
+              legend.title=element_text(size=14),
+              panel.grid.major=element_blank(),
+              legend.position="none")+
+        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+                            labels=c(expression(aCO[2]), expression(eCO[2])))
+    
+    p6 <- ggplot(plotDF6, aes(x=Variable, y=mean))+
+        geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
+        geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
+                      position = position_dodge(0.9), width=0.2, size=0.4) +
+        labs(x="", y=expression("P concentration (mg " * g^-1 * ")"))+
+        theme_linedraw() +
+        ylim(0,0.003)+
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=10), 
+              axis.text.x = element_text(size=10),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=12),
+              legend.title=element_text(size=14),
+              panel.grid.major=element_blank(),
+              legend.position="none")+
+        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+                            labels=c(expression(aCO[2]), expression(eCO[2])))
+    
+    
+    p7 <- ggplot(plotDF7, aes(x=Variable, y=mean))+
+        geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
+        geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
+                      position = position_dodge(0.9), width=0.2, size=0.4) +
+        labs(x="", y=expression("P concentration (mg " * g^-1 * ")"))+
+        theme_linedraw() +
+        ylim(0,0.1)+
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=10), 
+              axis.text.x = element_text(size=10),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=12),
+              legend.title=element_text(size=14),
+              panel.grid.major=element_blank(),
+              legend.position="none")+
+        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+                            labels=c(expression(aCO[2]), expression(eCO[2])))
+    
+    
+    p8 <- ggplot(plotDF8, aes(x=Variable, y=mean))+
+        geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
+        geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
+                      position = position_dodge(0.9), width=0.2, size=0.4) +
+        labs(x="", y=expression("P concentration (mg " * g^-1 * ")"))+
+        theme_linedraw() +
+        ylim(0,0.1)+
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=10), 
+              axis.text.x = element_text(size=10),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=12),
+              legend.title=element_text(size=14),
+              panel.grid.major=element_blank(),
+              legend.position="none")+
+        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+                            labels=c(expression(aCO[2]), expression(eCO[2])))
+    
+    
+    p9 <- ggplot(plotDF9, aes(x=Variable, y=mean))+
+        geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
+        geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
+                      position = position_dodge(0.9), width=0.2, size=0.4) +
+        labs(x="", y=expression("P concentration (mg " * g^-1 * ")"))+
+        theme_linedraw() +
+        ylim(0,0.1)+
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=10), 
+              axis.text.x = element_text(size=10),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=12),
+              legend.title=element_text(size=14),
+              panel.grid.major=element_blank(),
+              legend.position="none")+
+        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+                            labels=c(expression(aCO[2]), expression(eCO[2])))
+    
+    
+    p10 <- ggplot(plotDF10, aes(x=Variable, y=mean))+
+        geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
+        geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
+                      position = position_dodge(0.9), width=0.2, size=0.4) +
+        labs(x="", y=expression("P concentration (mg " * g^-1 * ")"))+
+        theme_linedraw() +
+        ylim(0,0.04)+
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=10), 
+              axis.text.x = element_text(size=10),
               axis.text.y=element_text(size=12),
               axis.title.y=element_text(size=14),
               legend.text=element_text(size=12),
               legend.title=element_text(size=14),
               panel.grid.major=element_blank(),
-              legend.text.align = 0,
-              legend.position="none",
-              legend.box = 'vertical',
-              legend.box.just = 'left')+
-        scale_y_continuous(name=expression("Plant P pool (g P " * m^-2 * ")"), 
-                           breaks=c(log(0.1), log(1), log(10), log(100)), 
-                           labels=c(0.1, 1, 10, 100), 
-                           limits=c(-5, 8))+
-        scale_fill_manual(name="",
-                          labels=c("needleleaf"="Needleleaf", 
-                                   "broadleaf"="Broadleaf"),
-                          values=c("green", "brown"))
+              legend.position="none")+
+        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+                            labels=c(expression(aCO[2]), expression(eCO[2])))
     
     
-    
-    p3 <- ggplot(inDF) +
-        geom_jitter(aes(x=Biome, y=log(soilP_0_10cm), fill=Leaf_Form), pch=21, alpha=0.4)+
-        geom_boxplot(aes(x=Biome, y=log(soilP_0_10cm), fill=Leaf_Form), outlier.alpha = 0)+
-        geom_hline(yintercept=log(pconDF$PercP.mean[pconDF$Depth=="0_10"]*10), col="black", size = 1)+
+    p11 <- ggplot(plotDF11, aes(x=Variable, y=mean))+
+        geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
+        geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
+                      position = position_dodge(0.9), width=0.2, size=0.4) +
+        labs(x="", y=expression("P concentration (mg " * g^-1 * ")"))+
         theme_linedraw() +
+        ylim(0,1.5)+
         theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_text(size=12),
-              axis.title.x=element_text(size=14),
+              axis.title.x = element_text(size=10), 
+              axis.text.x = element_text(size=10),
               axis.text.y=element_text(size=12),
               axis.title.y=element_text(size=14),
               legend.text=element_text(size=12),
               legend.title=element_text(size=14),
               panel.grid.major=element_blank(),
-              legend.text.align = 0,
-              legend.position="none",
-              legend.box = 'vertical',
-              legend.box.just = 'left')+
-        scale_y_continuous(name=expression("Soil P concentration (g P " * kg^-1 * ")"), 
-                           breaks=c(log(0.01), log(0.1), log(1), log(10)), 
-                           labels=c(0.01, 0.1, 1, 10), 
-                           limits=c(-5, 3))+
-        scale_fill_manual(name="",
-                          labels=c("needleleaf"="Needleleaf", 
-                                   "broadleaf"="Broadleaf"),
-                          values=c("green", "brown"))
+              legend.position="none")+
+        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+                            labels=c(expression(aCO[2]), expression(eCO[2])))
     
     
-    p4 <- ggplot(inDF) +
-        geom_jitter(aes(x=Biome, y=log(frac), fill=Leaf_Form), pch=21, alpha=0.4)+
-        geom_boxplot(aes(x=Biome, y=log(frac), fill=Leaf_Form), outlier.alpha = 0)+
-        geom_hline(yintercept=log(round(1.7/35.94,2)), col="black", size = 1)+
-        theme_linedraw() +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_text(size=12),
-              axis.title.x=element_text(size=14),
-              axis.text.y=element_text(size=12),
-              axis.title.y=element_text(size=14),
-              legend.text=element_text(size=12),
-              legend.title=element_text(size=14),
-              panel.grid.major=element_blank(),
-              legend.text.align = 0,
-              legend.position="none",
-              legend.box = 'vertical',
-              legend.box.just = 'left')+
-        scale_y_continuous(name=expression("Plant P / Soil P"), 
-                           breaks=c(log(0.01), log(0.05), log(0.1), log(0.5), log(1)), 
-                           labels=c(0.01, 0.05, 0.1, 0.5, 1), 
-                           limits=c(-5, 1))+
-        scale_fill_manual(name="",
-                          labels=c("needleleaf"="Needleleaf", 
-                                   "broadleaf"="Broadleaf"),
-                          values=c("green", "brown"))
+    grid.labs <- c("(a)", "(b)", "(c)", "(d)")
+
     
-    
-    #plot(p4)
-    
-    
-    
-    
-    lit.legend <- get_legend(p2 + theme(legend.position="right",
-                                        legend.box = 'horizontal',
-                                        legend.box.just = 'left'))
-    
+    ## plot 
     pdf(paste0("output/si_figures/ed_figure2.pdf"),
-        width=10,height=4)
-    toprow <- plot_grid(p2, p4, labels="", ncol=2, align="v", axis = "l")
-    plot_grid(toprow, lit.legend, ncol=1, rel_heights=c(1, 0.2))
-    grid.text(c("(a)", "(b)"), x = c(0.45, 0.95),
-              y = c(0.9, 0.9), 
-              gp=gpar(fontsize=14, col="black", fontface="bold"))
+        width=12,height=8)
+    bot_row <- plot_grid(p10, p9, p6, ncol=3, rel_widths = c(1., 1., 0.5))
+    plot_grid(p11, bot_row,  ncol = 1,
+              rel_heights=c(1, 1))
+    grid.text(grid.labs,x = c(0.1, 0.1, 0.48, 0.88), y = c(0.95, 0.45, 0.45, 0.45),
+              gp=gpar(fontsize=16, col="black", fontface="bold"))
     dev.off()
     
-    
-    
-    
+ }
 
-}
+

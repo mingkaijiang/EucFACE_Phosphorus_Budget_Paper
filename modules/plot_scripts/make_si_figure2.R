@@ -1,4 +1,4 @@
-make_ed_figure5 <- function() {
+make_si_figure2 <- function() {
     
     
     
@@ -118,7 +118,7 @@ make_ed_figure5 <- function() {
     
     
     ### output
-    pdf(paste0("output/si_figures/ed_figure5.pdf"), 
+    pdf(paste0("output/si_figures/si_figure2.pdf"), 
         width=6, height=4)
     ggdraw(p2) #+ 
         #draw_plot(p3, .45, .47, .5, .5) 
@@ -126,14 +126,6 @@ make_ed_figure5 <- function() {
     #grid.text(grid.labs,x = c(0.08, 0.92), y = c(0.9, 0.9),
     #          gp=gpar(fontsize=16, col="black", fontface="bold"))
     dev.off()
-    
-    ### alternative figure
-    
-    
-    
-    
-    
-    
     
     
 }

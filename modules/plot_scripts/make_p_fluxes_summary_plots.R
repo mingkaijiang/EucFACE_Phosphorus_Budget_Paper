@@ -167,14 +167,14 @@ make_p_fluxes_summary_plots <- function(inDF) {
 
     
     ## plot 
-    pdf(paste0("output/si_figures/P_Fluxes_Summary_Plots.pdf"),
-        width=12,height=8)
-    bot_row <- plot_grid(p2, p3, ncol=2)
-    plot_grid(p1, bot_row,  ncol = 1, rel_widths = c(1, 1, 0.2),
-              rel_heights=c(1.2, 1, 1))
-    grid.text(grid.labs,x = c(0.12, 0.14, 0.6), y = c(0.9, 0.42, 0.42),
-              gp=gpar(fontsize=16, col="black", fontface="bold"))
-    dev.off()
+    #pdf(paste0("output/si_figures/P_Fluxes_Summary_Plots.pdf"),
+    #    width=12,height=8)
+    #bot_row <- plot_grid(p2, p3, ncol=2)
+    #plot_grid(p1, bot_row,  ncol = 1, rel_widths = c(1, 1, 0.2),
+    #          rel_heights=c(1.2, 1, 1))
+    #grid.text(grid.labs,x = c(0.12, 0.14, 0.6), y = c(0.9, 0.42, 0.42),
+    #          gp=gpar(fontsize=16, col="black", fontface="bold"))
+    #dev.off()
     
 
     

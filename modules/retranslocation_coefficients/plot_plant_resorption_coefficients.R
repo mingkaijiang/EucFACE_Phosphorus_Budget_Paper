@@ -39,7 +39,7 @@ plot_plant_resorption_coefficients <- function(plant_p_retranslocation_coefficie
     
     
     
-    pdf("output/si_figures/ed_figure6.pdf", height=4,width=6)
+    pdf("output/si_figures/si_figure3.pdf", height=4,width=6)
     plot(p2)
     dev.off()
 }

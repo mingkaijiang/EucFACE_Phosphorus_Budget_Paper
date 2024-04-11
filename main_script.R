@@ -197,9 +197,6 @@ understorey_litter_p_concentration <- read.csv("data/processed/understorey_litte
 ##### Calculate retranslocation coefficients
 plant_p_retranslocation_coefficients <- read.csv("data/processed/plant_p_retranslocation_coefficients.csv", header=T)
 
-### plotting script for supplementary figure 6
-plot_plant_resorption_coefficients(plant_p_retranslocation_coefficients)
-
 ########################################################################################## 
 ########################################################################################## 
 #####
@@ -584,6 +581,7 @@ summary_cp_ratios <- make_cp_ratios(norm="unnormalized",
                                     c_flux=summary_table_c_flux,
                                     p_flux=summary_table_flux)
 
+
 ############################## Budget tables ###############################
 ### vegetation standing P stocks
 vegetation_standing_p_stock <- make_vegetation_standing_p_stock(norm="unnormalized",
@@ -595,8 +593,6 @@ vegetation_standing_p_stock <- make_vegetation_standing_p_stock(norm="unnormaliz
                                                                 understorey=understorey_p_pool,
                                                                 dead=standing_dead_p_pool,
                                                                 forestfloor=leaflitter_p_pool)
-
-
 
 ### P mean residence time in plant
 plant_p_MRT <- make_plant_P_mean_residence_time(norm="unnormalized",
@@ -638,8 +634,6 @@ total_p_budget <- make_total_p_budget(norm="unnormalized",
 ####        to plot.
 ####        So, firstly, copy and paste inDF = total_p_budget_norm in the console,
 ####        then open the function, then plot. 
-### figure 3 and ed figure 9
-
 inDF=total_p_budget
 inDF2=summary_table_flux
 inDF3=plant_GPP_efficiency
@@ -650,23 +644,18 @@ make_figure3(inDF=total_p_budget,
 
 ### Concentration
 inDF=summary_table_concentration
-make_si_figure3(inDF=summary_table_concentration)
+make_ed_figure2(inDF=summary_table_concentration)
 
 ### P pool
 inDF=summary_table_pool
 make_figure2(inDF=summary_table_pool)
 
-
-
 ### P flux
 inDF=summary_table_flux
 make_p_fluxes_summary_plots(inDF=summary_table_flux)
 
-
 ### compare ecosystem P budget to China
-make_ed_figure2(soil_p_concentration)
-
-
+make_make_comparison_to_China_pool_figure(soil_p_concentration)
 
 ### plot CO2 effect on the same figure
 ### contains Figure 4, extended data figures 7 and 8
@@ -691,9 +680,9 @@ plot_ed_figure4(inDF=summary_cp_ratios,
 
 
 ### microbial P concentration
-make_ed_figure5()
+make_si_figure2()
 
-### plot P resorption coefficients
+### plot P resorption coefficients, si figure 3
 plot_plant_resorption_coefficients(plant_p_retranslocation_coefficients)
 
 
