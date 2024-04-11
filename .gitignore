@@ -47,3 +47,14 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# token file
+tokenfile.txt
+
+# data
+*.csv
+*.dat
+*.nc
+
+#output
+*.pdf
