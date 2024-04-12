@@ -418,28 +418,12 @@ make_figure2 <- function(inDF) {
     plotDF$neg <- with(plotDF, mean - sd)
     plotDF$sd2 <- plotDF$sd^2
     
-    #plotDF$Cat1 <- c(rep("Veg", 4), rep("NA", 4), 
-    #                 rep("Lit", 2), rep("Veg", 6),
-    #                 rep("NA", 2), 
-    #                 rep("Lit", 2), rep("Soil_0_10", 2),
-    #                 rep("Soil_10_30", 2), rep("Soil_30_60", 2),
-    #                 rep("NA", 24))
-    
     plotDF$Cat1 <- c(rep("Veg", 4), rep("NA", 4), 
                      rep("Veg", 2), rep("Veg", 6),
                      rep("NA", 2), 
                      rep("Veg", 2), rep("NA", 6),
                      rep("Soil_Inorg", 6), rep("Soil_Org", 6),
                      rep("NA", 12))
-    
-    
-    #plotDF$Cat2 <- c(rep("Veg", 2), rep("NA", 2), 
-    #                 rep("Veg", 4), 
-    #                 rep("Lit", 2), rep("Veg", 6),
-    #                 rep("NA", 2), 
-    #                 rep("Lit", 2), rep("Soil_0_10", 2),
-    #                 rep("Soil_10_30", 2), rep("Soil_30_60", 2),
-    #                 rep("NA", 24))
     
     plotDF$Cat2 <- c(rep("Veg", 2), rep("NA", 2), 
                      rep("Veg", 4), 
@@ -450,6 +434,79 @@ make_figure2 <- function(inDF) {
                      rep("NA", 12))
     
     
+    
+    ### individiual ring data
+    tmpDF <- totDF[c("terms", "R1", "R2", "R3", "R4", "R5", "R6")]
+    plotDFi <- reshape2::melt(tmpDF, id.vars="terms", variable.name="Ring")
+    plotDFi$Trt[plotDFi$Ring%in%c("R1", "R4", "R5")] <- "eCO2"
+    plotDFi$Trt[plotDFi$Ring%in%c("R2", "R3", "R6")] <- "aCO2"
+    plotDFi$Cat1 <- 1
+    
+    plotDFi$Cat1[plotDFi$terms%in%c("Canopy P Pool",
+                                        "Total Wood P Pool",
+                                        "Forestfloor Leaf Litter P Pool",
+                                        "Fine Root P Pool",
+                                        "Coarse Root P Pool",
+                                        "Understorey P Pool",
+                                        "Standing Dead Wood P Pool")] <- "Veg"
+    
+    plotDFi$Cat1[plotDFi$terms%in%c("Sapwood P Pool",
+                                        "Heartwood P Pool",
+                                        "Understorey Litter P Pool",
+                                        "Soil P Pool 0-10cm",
+                                        "Soil P Pool 10-30cm",
+                                        "Soil P Pool 30-60cm",
+                                        "Standing Dead Wood P Pool",
+                                        "Soil Phosphate P Pool 0-10cm",
+                                        "Soil Phosphate P Pool 10-30cm",
+                                        "Soil Phosphate P Pool 30-60cm",
+                                        "Microbial P Pool 0-10cm",
+                                        "Microbial P Pool 10-30cm",
+                                        "Microbial P Pool 30-60cm")] <- "NA"
+    
+    plotDFi$Cat1[plotDFi$terms%in%c("Soil Inorg P Pool 0-10cm",
+                                        "Soil Inorg P Pool 10-30cm",
+                                        "Soil Inorg P Pool 30-60cm")] <- "Soil_Inorg"
+
+    plotDFi$Cat1[plotDFi$terms%in%c("Soil Org P Pool 0-10cm",
+                                        "Soil Org P Pool 10-30cm",
+                                        "Soil Org P Pool 30-60cm")] <- "Soil_Org"
+    
+    
+    plotDFi$Cat2 <- 2
+    
+    plotDFi$Cat2[plotDFi$terms%in%c("Canopy P Pool",
+                                    "Sapwood P Pool",
+                                    "Heartwood P Pool",
+                                    "Forestfloor Leaf Litter P Pool",
+                                    "Fine Root P Pool",
+                                    "Coarse Root P Pool",
+                                    "Understorey P Pool",
+                                    "Standing Dead Wood P Pool")] <- "Veg"
+    
+    plotDFi$Cat2[plotDFi$terms%in%c("Total Wood P Pool",
+                                    "Understorey Litter P Pool",
+                                    "Soil P Pool 0-10cm",
+                                    "Soil P Pool 10-30cm",
+                                    "Soil P Pool 30-60cm",
+                                    "Standing Dead Wood P Pool",
+                                    "Soil Phosphate P Pool 0-10cm",
+                                    "Soil Phosphate P Pool 10-30cm",
+                                    "Soil Phosphate P Pool 30-60cm",
+                                    "Microbial P Pool 0-10cm",
+                                    "Microbial P Pool 10-30cm",
+                                    "Microbial P Pool 30-60cm")] <- "NA"
+    
+    plotDFi$Cat2[plotDFi$terms%in%c("Soil Inorg P Pool 0-10cm",
+                                    "Soil Inorg P Pool 10-30cm",
+                                    "Soil Inorg P Pool 30-60cm")] <- "Soil_Inorg"
+    
+    plotDFi$Cat2[plotDFi$terms%in%c("Soil Org P Pool 0-10cm",
+                                    "Soil Org P Pool 10-30cm",
+                                    "Soil Org P Pool 30-60cm")] <- "Soil_Org"
+    
+    
+    
     ### total ecosystem P pool
     subDF1 <- plotDF[plotDF$Cat1!="NA",]
     plotDF1 <- summaryBy(mean~Cat1+Trt, FUN=sum, data=subDF1, keep.names=T, na.rm=T)
@@ -458,12 +515,21 @@ make_figure2 <- function(inDF) {
     totDF1$sd[totDF1$Trt=="eCO2"] <- sqrt(sum(subDF1$sd2[subDF1$Trt=="eCO2"])/(dim(subDF1)[1]/2))
     
     
+    subDF1i <- plotDFi[plotDFi$Cat1!="NA",]
+    plotDF1i <- summaryBy(value~Cat1+Ring+Trt, FUN=sum, data=subDF1i, keep.names=T, na.rm=T)
+    totDF1i <- summaryBy(value~Ring+Trt, data=plotDF1i, FUN=sum, keep.names=T, na.rm=T)
+    
+    
     ### vegetation + litter P pool
     subDF2 <- plotDF[plotDF$Cat2%in%c("Veg", "Lit"),]
     plotDF2 <- summaryBy(mean~Variable+Trt, FUN=sum, data=subDF2, keep.names=T, na.rm=T)
     totDF2 <- summaryBy(mean~Trt, data=plotDF2, FUN=sum, keep.names=T, na.rm=T)
     totDF2$sd[totDF2$Trt=="aCO2"] <- sqrt(sum(subDF2$sd2[subDF2$Trt=="aCO2"])/(dim(subDF2)[1]/2))
     totDF2$sd[totDF2$Trt=="eCO2"] <- sqrt(sum(subDF2$sd2[subDF2$Trt=="eCO2"])/(dim(subDF2)[1]/2))
+    
+    subDF2i <- plotDFi[plotDFi$Cat2%in%c("Veg", "Lit"),]
+    plotDF2i <- summaryBy(value~terms+Ring+Trt, FUN=sum, data=subDF2i, keep.names=T, na.rm=T)
+    totDF2i <- summaryBy(value~Ring+Trt, data=plotDF2i, FUN=sum, keep.names=T, na.rm=T)
     
     
     ### 0-10 cm soil
@@ -520,6 +586,35 @@ make_figure2 <- function(inDF) {
     
     
     
+    ### 0-10 cm soil
+    subDF3i <- plotDFi[plotDFi$terms%in%c("Soil Inorg P Pool 0-10cm",
+                                          "Soil Org P Pool 0-10cm",
+                                          "Microbial P Pool 0-10cm",
+                                          "Soil Phosphate P Pool 0-10cm"),]
+    
+    tmpDFi <- subDF3i[subDF3i$terms=="Soil Inorg P Pool 0-10cm",]
+    tmpDFi$terms <- "Soil Org Residual P Pool 0-10cm"
+    subDF3i <- rbind(subDF3i, tmpDFi)
+    
+    tmpDFi <- subDF3i[subDF3i$terms=="Soil Inorg P Pool 0-10cm",]
+    tmpDFi$terms <- "Soil Inorg Residual P Pool 0-10cm"
+    subDF3i <- rbind(subDF3i, tmpDFi)
+    
+    
+    for (i in c("R1", "R2", "R3", "R4", "R5", "R6")) {
+        subDF3i$value[subDF3i$terms=="Soil Org Residual P Pool 0-10cm"&subDF3i$Ring==i] <- (subDF3i$value[subDF3i$terms=="Soil Org P Pool 0-10cm"&subDF3i$Ring==i] -
+                                                                                              subDF3i$value[subDF3i$terms=="Microbial P Pool 0-10cm"&subDF3i$Ring==i])
+        
+        subDF3i$value[subDF3i$terms=="Soil Inorg Residual P Pool 0-10cm"&subDF3i$Ring==i] <- (subDF3i$value[subDF3i$terms=="Soil Inorg P Pool 0-10cm"&subDF3i$Ring==i] -
+                                                                                                subDF3i$value[subDF3i$terms=="Soil Phosphate P Pool 0-10cm"&subDF3i$Ring==i])
+        
+    }
+    
+    subDF3i <- subDF3i[subDF3$terms!="Soil Org P Pool 0-10cm",]
+    subDF3i <- subDF3i[subDF3$terms!="Soil Inorg P Pool 0-10cm",]
+    
+    totDF3i <- plotDFi[plotDFi$terms=="Soil P Pool 0-10cm",]
+    
     
     ### 10-30 cm soil
     subDF4 <- plotDF[plotDF$Variable%in%c("Soil Inorg P Pool 10-30cm",
@@ -574,6 +669,35 @@ make_figure2 <- function(inDF) {
     
     
     
+    ### 10-30 cm soil
+    subDF4i <- plotDFi[plotDFi$terms%in%c("Soil Inorg P Pool 10-30cm",
+                                          "Soil Org P Pool 10-30cm",
+                                          "Microbial P Pool 10-30cm",
+                                          "Soil Phosphate P Pool 10-30cm"),]
+    
+    tmpDFi <- subDF4i[1:6,]
+    tmpDFi$terms <- "Soil Org Residual P Pool 10-30cm"
+    subDF4i <- rbind(subDF4i, tmpDFi)
+    
+    tmpDFi <- subDF4i[1:6,]
+    tmpDFi$terms <- "Soil Inorg Residual P Pool 10-30cm"
+    subDF4i <- rbind(subDF4i, tmpDFi)
+    
+    
+    for (i in c("R1", "R2", "R3", "R4", "R5", "R6")) {
+        subDF4i$value[subDF4i$terms=="Soil Org Residual P Pool 10-30cm"&subDF4i$Ring==i] <- (subDF4i$value[subDF4i$terms=="Soil Org P Pool 10-30cm"&subDF4i$Ring==i] -
+                                                                                               subDF4i$value[subDF4i$terms=="Microbial P Pool 10-30cm"&subDF4i$Ring==i])
+        
+        subDF4i$value[subDF4i$terms=="Soil Inorg Residual P Pool 10-30cm"&subDF4i$Ring==i] <- (subDF4i$value[subDF4i$terms=="Soil Inorg P Pool 10-30cm"&subDF4i$Ring==i] -
+                                                                                                 subDF4i$value[subDF4i$terms=="Soil Phosphate P Pool 10-30cm"&subDF4i$Ring==i])
+        
+    }
+    
+    subDF4i <- subDF4i[subDF4i$terms!="Soil Org P Pool 10-30cm",]
+    subDF4i <- subDF4i[subDF4i$terms!="Soil Inorg P Pool 10-30cm",]
+    
+    totDF4i <- plotDFi[plotDFi$terms=="Soil P Pool 10-30cm",]
+    
     
     ### 30-60 cm soil
     subDF5 <- plotDF[plotDF$Variable%in%c("Soil Inorg P Pool 30-60cm",
@@ -625,6 +749,39 @@ make_figure2 <- function(inDF) {
     totDF5 <- plotDF[plotDF$Variable=="Soil P Pool 30-60cm",]
     
     
+    
+    ### 30-60 cm soil
+    subDF5i <- plotDFi[plotDFi$terms%in%c("Soil Inorg P Pool 30-60cm",
+                                             "Soil Org P Pool 30-60cm",
+                                             "Microbial P Pool 30-60cm",
+                                             "Soil Phosphate P Pool 30-60cm"),]
+    
+    tmpDFi <- subDF5i[1:6,]
+    tmpDFi$terms <- "Soil Org Residual P Pool 30-60cm"
+    subDF5i <- rbind(subDF5i, tmpDFi)
+    
+    tmpDFi <- subDF5[1:6,]
+    tmpDFi$terms <- "Soil Inorg Residual P Pool 30-60cm"
+    subDF5i <- rbind(subDF5i, tmpDFi)
+    
+    for (i in c("R1", "R2", "R3", "R4", "R5", "R6")) {
+        subDF5i$value[subDF5i$terms=="Soil Org Residual P Pool 30-60cm"&subDF5i$Ring==i] <- (subDF5i$value[subDF5i$terms=="Soil Org P Pool 30-60cm"&subDF5i$Ring==i] -
+                                                                                               subDF5i$value[subDF5i$terms=="Microbial P Pool 30-60cm"&subDF5i$Ring==i])
+        
+        subDF5i$value[subDF5i$terms=="Soil Inorg Residual P Pool 30-60cm"&subDF5i$Ring==i] <- (subDF5i$value[subDF5i$terms=="Soil Inorg P Pool 30-60cm"&subDF5i$Ring==i] - 
+                                                                                                    subDF5i$value[subDF5i$terms=="Soil Phosphate P Pool 30-60cm"&subDF5i$Ring==i])
+        
+        
+    }
+    
+    subDF5i <- subDF5i[subDF5i$terms!="Soil Org P Pool 30-60cm",]
+    subDF5i <- subDF5i[subDF5i$terms!="Soil Inorg P Pool 30-60cm",]
+    
+    totDF5i <- plotDFi[plotDFi$terms=="Soil P Pool 30-60cm",]
+    
+    
+    
+    
     ### order labels
     plotDF1$Cat1 <- gsub("Veg", "1_Veg", plotDF1$Cat1)
     
@@ -656,11 +813,7 @@ make_figure2 <- function(inDF) {
     subDF5$Variable <- gsub("Soil Inorg Residual P Pool 30-60cm", "4_Soil Inorg P Pool 30-60cm", subDF5$Variable)
     subDF5$Variable <- gsub("Soil Phosphate P Pool 30-60cm", "3_Soil Phosphate P Pool 30-60cm", subDF5$Variable)
     
-    
-    
-    ### Hedley
-    #hedDFa <- subset(hedDF, Trt=="amb")
-    #hedDFe <- subset(hedDF, Trt=="ele")
+
     
     
     
@@ -671,11 +824,10 @@ make_figure2 <- function(inDF) {
         geom_errorbar(data=totDF1, aes(x=Trt, ymax=mean+sd, ymin=mean-sd), 
                       position = position_dodge(0.9), width=0.2, size=0.4) +
         geom_point(data=totDF1, aes(x=Trt, y=mean), pch=19, col="black", size=2)+
+        geom_point(data=totDF1i, aes(x=Trt, y=value, pch=Trt), size=2, color="black",
+                   position=position_jitterdodge(dodge.width=0.8))+
         labs(x="", y=expression(paste("Ecosystem P pool (g P ", m^-2, ")")))+
         theme_linedraw() +
-        #geom_text(aes(x=Trt, y=label_y, label = frac), stat = "identity", 
-        #          position = position_dodge(0.9), vjust=2.0,
-        #          colour = "black")+
         theme(panel.grid.minor=element_blank(),
               axis.title.x = element_text(size=10), 
               axis.text.x = element_text(size=12),
@@ -688,17 +840,6 @@ make_figure2 <- function(inDF) {
               legend.background = element_rect(fill="grey",
                                                size=0.5, linetype="solid", 
                                                colour ="black"))+
-        #scale_fill_manual(name="", 
-        #                  values = c("Veg" = cbPalette[2],
-        #                             "Lit" = cbPalette[7],
-        #                             "Soil_0_10" = cbPalette[4],
-        #                             "Soil_10_30" = cbPalette[5],
-        #                             "Soil_30_60" = cbPalette[6]),
-        #                  labels=c("Veg"="Vegetation",
-        #                           "Lit"="Litter",
-        #                           "Soil_0_10"=expression(Soil['0-10cm']),
-        #                           "Soil_10_30"=expression(Soil['10-30cm']),
-        #                           "Soil_30_60"=expression(Soil['30-60cm'])))+
         scale_fill_manual(name="P Pool", 
                           values = c("1_Veg" = cbPalette[4],
                                      "Soil_Inorg" = cbPalette[2],
@@ -708,9 +849,15 @@ make_figure2 <- function(inDF) {
                                    "Soil_Org"="Organic soil"))+
         scale_x_discrete(limits=c("aCO2", "eCO2"),
                          labels=c("aCO2"=expression(aCO[2]),
-                                  "eCO2"=expression(eCO[2])))
+                                  "eCO2"=expression(eCO[2])))+
+        scale_shape_manual(name="Treatment",
+                           values=c("aCO2"=22,
+                                    "eCO2"=24),
+                           labels=c("aCO2"=expression(aCO[2]),
+                                    "eCO2"=expression(eCO[2])))+
+        guides(shape=F)
         
-    
+
     ### plot vegetation P pool
     p2 <- ggplot(plotDF2, aes(x=Trt, y=mean))+
         geom_bar(aes(fill=Variable), col="black",
@@ -718,6 +865,8 @@ make_figure2 <- function(inDF) {
         geom_errorbar(data=totDF2, aes(x=Trt, ymax=mean+sd, ymin=mean-sd), 
                       position = position_dodge(0.9), width=0.2, size=0.4) +
         geom_point(data=totDF2, aes(x=Trt, y=mean), pch=19, col="black", size=2)+
+        geom_point(data=totDF2i, aes(x=Trt, y=value, pch=Trt), size=2, color="black",
+                   position=position_jitterdodge(dodge.width=0.8))+
         labs(x="", y=expression(paste("Plant + Litter P pool (g P ", m^-2, ")")))+
         #labs(x="", y="")+
         theme_linedraw() +
@@ -750,7 +899,13 @@ make_figure2 <- function(inDF) {
                                    "2_Understorey P Pool"="Understorey aboveground"))+
         scale_x_discrete(limits=c("aCO2", "eCO2"),
                          labels=c("aCO2"=expression(aCO[2]),
-                                  "eCO2"=expression(eCO[2])))
+                                  "eCO2"=expression(eCO[2])))+
+        scale_shape_manual(name="Treatment",
+                           values=c("aCO2"=22,
+                                    "eCO2"=24),
+                           labels=c("aCO2"=expression(aCO[2]),
+                                    "eCO2"=expression(eCO[2])))+
+        guides(shape=F)
     
     
     ### add new component
@@ -834,12 +989,14 @@ make_figure2 <- function(inDF) {
         geom_errorbar(data=totDF3, aes(x=Trt, ymax=mean+sd, ymin=mean-sd), 
                       position = position_dodge(0.9), width=0.2, size=0.4) +
         geom_point(data=totDF3, aes(x=Trt, y=mean), pch=19, col="black", size=2)+
+        geom_point(data=totDF3i, aes(x=Trt, y=value, pch=Trt), size=2, color="black",
+                   position=position_jitterdodge(dodge.width=0.8))+
         labs(x="0 - 10 cm", y=expression(paste("Soil P pool (g P ", m^-2, ")")))+
         theme_linedraw() +
         coord_flip()+
-        ylim(0, 18)+
+        ylim(0, 20)+
         #ggtitle("0-10 cm")+
-        annotate("text", y=16, x=0.7, label="0-10 cm", size=5)+
+        annotate("text", y=18, x=0.7, label="0-10 cm", size=5)+
         theme(panel.grid.minor=element_blank(),
               axis.title.x = element_blank(), 
               axis.text.x = element_blank(),
@@ -861,10 +1018,14 @@ make_figure2 <- function(inDF) {
                                    "2_Soil Org Residual P Pool 0-10cm"="Organic residual"))+
         scale_x_discrete(limits=c("aCO2", "eCO2"),
                          labels=c("aCO2"=expression(aCO[2]),
-                                  "eCO2"=expression(eCO[2])))
+                                  "eCO2"=expression(eCO[2])))+
+        scale_shape_manual(name="Treatment",
+                           values=c("aCO2"=22,
+                                    "eCO2"=24),
+                           labels=c("aCO2"=expression(aCO[2]),
+                                    "eCO2"=expression(eCO[2])))+
+        guides(shape=F)
 
-
-    
     
     ### plot soil P pool 10 - 30 cm
     p4 <- ggplot(subDF4, aes(x=Trt, y=mean))+
@@ -873,12 +1034,14 @@ make_figure2 <- function(inDF) {
         geom_errorbar(data=totDF4, aes(x=Trt, ymax=mean+sd, ymin=mean-sd), 
                       position = position_dodge(0.9), width=0.2, size=0.4) +
         geom_point(data=totDF4, aes(x=Trt, y=mean), pch=19, col="black", size=2)+
+        geom_point(data=totDF4i, aes(x=Trt, y=value, pch=Trt), size=2, color="black",
+                   position=position_jitterdodge(dodge.width=0.8))+
         labs(x="10 - 30 cm", y=expression(paste("Soil P pool (g P ", m^-2, ")")))+
         theme_linedraw() +
-        ylim(0, 18)+
+        ylim(0, 20)+
         coord_flip()+
         #ggtitle("10-30 cm")+
-        annotate("text", y=16, x=0.7, label="10-30 cm", size=5)+
+        annotate("text", y=18, x=0.7, label="10-30 cm", size=5)+
         theme(panel.grid.minor=element_blank(),
               axis.title.x = element_blank(), 
               axis.text.x = element_blank(),
@@ -900,7 +1063,14 @@ make_figure2 <- function(inDF) {
                                    "2_Soil Org Residual P Pool 10-30cm"="Organic residual"))+
         scale_x_discrete(limits=c("aCO2", "eCO2"),
                          labels=c("aCO2"=expression(aCO[2]),
-                                  "eCO2"=expression(eCO[2])))
+                                  "eCO2"=expression(eCO[2])))+
+        scale_shape_manual(name="Treatment",
+                           values=c("aCO2"=22,
+                                    "eCO2"=24),
+                           labels=c("aCO2"=expression(aCO[2]),
+                                    "eCO2"=expression(eCO[2])))+
+        guides(shape=F)
+    
     
     
     
@@ -911,11 +1081,13 @@ make_figure2 <- function(inDF) {
         geom_errorbar(data=totDF5, aes(x=Trt, ymax=mean+sd, ymin=mean-sd), 
                       position = position_dodge(0.9), width=0.2, size=0.4) +
         geom_point(data=totDF5, aes(x=Trt, y=mean), pch=19, col="black", size=2)+
+        geom_point(data=totDF5i, aes(x=Trt, y=value, pch=Trt), size=2, color="black",
+                   position=position_jitterdodge(dodge.width=0.8))+
         labs(x="30 - 60 cm", y=expression(paste("Soil P pool (g P ", m^-2, ")")))+
         theme_linedraw() +
-        ylim(0, 18)+
+        ylim(0, 20)+
         coord_flip()+
-        annotate("text", y=16, x=0.7, label="30-60 cm", size=5)+
+        annotate("text", y=18, x=0.7, label="30-60 cm", size=5)+
         #ggtitle("30-60 cm")+
         theme(panel.grid.minor=element_blank(),
               axis.title.x = element_text(size=14), 
@@ -938,7 +1110,14 @@ make_figure2 <- function(inDF) {
                                    "2_Soil Org Residual P Pool 30-60cm"="Organic residual"))+
         scale_x_discrete(limits=c("aCO2", "eCO2"),
                          labels=c("aCO2"=expression(aCO[2]),
-                                  "eCO2"=expression(eCO[2])))
+                                  "eCO2"=expression(eCO[2])))+
+        scale_shape_manual(name="Treatment",
+                           values=c("aCO2"=22,
+                                    "eCO2"=24),
+                           labels=c("aCO2"=expression(aCO[2]),
+                                    "eCO2"=expression(eCO[2])))+
+        guides(shape=F)
+    
     
     
     p6 <- ggplot(hedDF,

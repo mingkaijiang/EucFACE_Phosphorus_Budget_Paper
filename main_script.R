@@ -655,7 +655,7 @@ inDF=summary_table_flux
 make_p_fluxes_summary_plots(inDF=summary_table_flux)
 
 ### compare ecosystem P budget to China
-make_make_comparison_to_China_pool_figure(soil_p_concentration)
+make_comparison_to_China_pool_figure(soil_p_concentration)
 
 ### plot CO2 effect on the same figure
 ### contains Figure 4, extended data figures 7 and 8

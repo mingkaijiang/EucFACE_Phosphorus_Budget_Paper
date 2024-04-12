@@ -55,6 +55,18 @@ make_figure3 <- function(inDF,
     plotDF3$pos <- with(plotDF3, mean + sd)
     plotDF3$neg <- with(plotDF3, mean - sd)
     
+    # add individual data points onto the figures
+    plotDF3i <- data.frame(c(inDF$R2[inDF$terms=="Total plant P requirement flux"], 
+                             inDF$R3[inDF$terms=="Total plant P requirement flux"],
+                             inDF$R6[inDF$terms=="Total plant P requirement flux"], 
+                             inDF$R1[inDF$terms=="Total plant P requirement flux"], 
+                             inDF$R4[inDF$terms=="Total plant P requirement flux"],
+                             inDF$R5[inDF$terms=="Total plant P requirement flux"]), 
+                           NA)
+    colnames(plotDF3i) <- c("value", "Trt")
+    plotDF3i$Trt <- c(rep("aCO2",3), rep("eCO2",3))
+    
+    
     ### Plot 4
     plotDF4 <- data.frame(c(inDF$aCO2[inDF$terms=="Total plant P retranslocation flux"], 
                             inDF$eCO2[inDF$terms=="Total plant P retranslocation flux"]), 
@@ -88,6 +100,17 @@ make_figure3 <- function(inDF,
     plotDF6$pos <- with(plotDF6, mean + sd)
     plotDF6$neg <- with(plotDF6, mean - sd)
     
+    # add individual data points onto the figures
+    plotDF6i <- data.frame(c(inDF$R2[inDF$terms=="Soil P mineralization flux"], 
+                             inDF$R3[inDF$terms=="Soil P mineralization flux"],
+                             inDF$R6[inDF$terms=="Soil P mineralization flux"], 
+                             inDF$R1[inDF$terms=="Soil P mineralization flux"], 
+                             inDF$R4[inDF$terms=="Soil P mineralization flux"],
+                             inDF$R5[inDF$terms=="Soil P mineralization flux"]), 
+                           NA)
+    colnames(plotDF6i) <- c("value", "Trt")
+    plotDF6i$Trt <- c(rep("aCO2",3), rep("eCO2",3))
+    
     ### plot 7
     plotDF7 <- data.frame(c(inDF$aCO2[inDF$terms=="Plant P MRT"], 
                             inDF$eCO2[inDF$terms=="Plant P MRT"]), 
@@ -110,6 +133,17 @@ make_figure3 <- function(inDF,
     plotDF8$Trt <- c("aCO2", "eCO2")
     plotDF8$pos <- with(plotDF8, mean + sd)
     plotDF8$neg <- with(plotDF8, mean - sd)
+    
+    # add individual data points onto the figures
+    plotDF8i <- data.frame(c(inDF$R2[inDF$terms=="Plant PUE"], 
+                              inDF$R3[inDF$terms=="Plant PUE"],
+                              inDF$R6[inDF$terms=="Plant PUE"], 
+                              inDF$R1[inDF$terms=="Plant PUE"], 
+                              inDF$R4[inDF$terms=="Plant PUE"],
+                              inDF$R5[inDF$terms=="Plant PUE"]), 
+                            NA)
+    colnames(plotDF8i) <- c("value", "Trt")
+    plotDF8i$Trt <- c(rep("aCO2",3), rep("eCO2",3))
     
     
     
@@ -141,7 +175,16 @@ make_figure3 <- function(inDF,
     plotDF10$neg <- with(plotDF10, mean - sd)
     
 
-    
+    # add individual data points onto the figures
+    plotDF10i <- data.frame(c(inDF$R2[inDF$terms=="Plant P MRT"], 
+                             inDF$R3[inDF$terms=="Plant P MRT"],
+                             inDF$R6[inDF$terms=="Plant P MRT"], 
+                             inDF$R1[inDF$terms=="Plant P MRT"], 
+                             inDF$R4[inDF$terms=="Plant P MRT"],
+                             inDF$R5[inDF$terms=="Plant P MRT"]), 
+                           NA)
+    colnames(plotDF10i) <- c("value", "Trt")
+    plotDF10i$Trt <- c(rep("aCO2",3), rep("eCO2",3))
     
     
     ### calculate proportions of demand flux
@@ -301,6 +344,7 @@ make_figure3 <- function(inDF,
     
     
     
+    #### Figure plotting
     p1 <- ggplot(plotDF9,
                  aes(Trt, mean)) + 
         geom_bar(stat = "identity", aes(fill=Variable), position="stack", col="black") +
@@ -308,6 +352,8 @@ make_figure3 <- function(inDF,
                       position = position_dodge(0.9), width=0.2, size=0.4,
                       color="black") +
         geom_point(data=plotDF3, aes(x=Trt, y=mean), size=2, pch=19, color="black")+
+        geom_jitter(data=plotDF3i, aes(x=Trt, y=value, pch=Trt), size=2, color="black",
+                    width=0.1)+
         xlab("") + ylab(expression(paste("P demand (g P ", m^-2, " ", yr^-1, ")")))+
         theme_linedraw() +
         ylim(0, 1.0)+
@@ -319,7 +365,9 @@ make_figure3 <- function(inDF,
               legend.text=element_text(size=10),
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
-              legend.position = c(0.8, 0.2),
+              legend.position = c(0.6, 0.2),
+              legend.box="horizontal",
+              legend.direction="vertical",
               legend.background = element_rect(fill="grey",
                                                size=0.5, linetype="solid", 
                                                colour ="black"))+
@@ -328,6 +376,11 @@ make_figure3 <- function(inDF,
                                      "uptake" = cbbPalette[3]),
                           labels=c("retrans"="Resorption",
                                    "uptake"="Uptake"))+
+        scale_shape_manual(name="Treatment",
+                           values=c("aCO2"=22,
+                                    "eCO2"=24),
+                           labels=c("aCO2"=expression(aCO[2]),
+                                    "eCO2"=expression(eCO[2])))+
         scale_x_discrete(limits=c("aCO2","eCO2"),
                          labels=c(expression(aCO[2]),
                                   expression(eCO[2])))
@@ -527,6 +580,8 @@ make_figure3 <- function(inDF,
                       position = position_dodge(0.9), width=0.2, 
                       size=0.4) +
         geom_point(data=plotDF6, aes(x=Trt, y=mean), size=2, color="black")+
+        geom_jitter(data=plotDF6i, aes(x=Trt, y=value, pch=Trt), size=2, color="black",
+                    width=0.1)+
         xlab("") + ylab(expression(paste("Soil P mineralization (g P ", m^-2, " ", yr^-1, ")")))+
         theme_linedraw() +
         ylim(0, 1.0)+
@@ -538,7 +593,9 @@ make_figure3 <- function(inDF,
               legend.text=element_text(size=10),
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
-              legend.position = c(0.8, 0.2),
+              legend.position = c(0.6, 0.2),
+              legend.box="horizontal",
+              legend.direction="vertical",
               legend.background = element_rect(fill="grey",
                                                size=0.5, linetype="solid", 
                                                colour ="black"))+
@@ -549,6 +606,11 @@ make_figure3 <- function(inDF,
                           labels=c("3_0-10cm"="0-10cm",
                                    "2_10-30cm"="10-30cm",
                                    "1_30-60cm"="30-60cm"))+
+        scale_shape_manual(name="Treatment",
+                           values=c("aCO2"=22,
+                                    "eCO2"=24),
+                           labels=c("aCO2"=expression(aCO[2]),
+                                    "eCO2"=expression(eCO[2])))+
         scale_x_discrete(limits=c("aCO2","eCO2"),
                          labels=c(expression(aCO[2]),
                                   expression(eCO[2])))
@@ -556,12 +618,17 @@ make_figure3 <- function(inDF,
     #plot(p2)
     
     plotDF10 <- plotDF10[plotDF10$Component=="Plant",]
+    
+    
+    
     p3 <- ggplot(plotDF10,
-                 aes(Component, mean,group=Trt)) + 
+                 aes(Trt, mean,group=Trt)) + 
         geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black") +
         geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
                       position = position_dodge(0.9), width=0.2, size=0.4) +
-        xlab("") + ylab("P MRT (yr)")+
+        geom_jitter(data=plotDF10i, aes(x=Trt, y=value, pch=Trt), size=2, color="black",
+                    width=0.1)+
+        xlab("") + ylab("Plant P MRT (yr)")+
         theme_linedraw() +
         ylim(0,4)+
         theme(panel.grid.minor=element_blank(),
@@ -577,9 +644,14 @@ make_figure3 <- function(inDF,
                           labels=c(expression(aCO[2]), expression(eCO[2])))+
         scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
                             labels=c(expression(aCO[2]), expression(eCO[2])))+
-        scale_x_discrete(limits=c("Plant"),#,"Microbe"),
-                         labels=c("Plant"))#,
-    #"Microbe"))
+        scale_shape_manual(name="Treatment",
+                           values=c("aCO2"=22,
+                                    "eCO2"=24),
+                           labels=c("aCO2"=expression(aCO[2]),
+                                    "eCO2"=expression(eCO[2])))+
+        scale_x_discrete(limits=c("aCO2","eCO2"),
+                         labels=c(expression(aCO[2]),
+                                  expression(eCO[2])))
     
     
     p4 <- ggplot(plotDF8,
@@ -587,6 +659,8 @@ make_figure3 <- function(inDF,
         geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black") +
         geom_errorbar(aes(ymax=pos, ymin=neg, color=factor(Trt)), 
                       position = position_dodge(0.9), width=0.2, size=0.4) +
+        geom_jitter(data=plotDF8i, aes(x=Trt, y=value, pch=Trt), size=2, color="black",
+                    width=0.1)+
         xlab("") + ylab(expression(paste("Growth PUE ( gC" * " " *g^-1 * " P)")))+
         theme_linedraw() +
         ylim(0,2500)+
@@ -603,6 +677,11 @@ make_figure3 <- function(inDF,
                           labels=c(expression(aCO[2]), expression(eCO[2])))+
         scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
                             labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_shape_manual(name="Treatment",
+                           values=c("aCO2"=22,
+                                    "eCO2"=24),
+                           labels=c("aCO2"=expression(aCO[2]),
+                                    "eCO2"=expression(eCO[2])))+
         scale_x_discrete(limits=c("aCO2","eCO2"),
                          labels=c(expression(aCO[2]),
                                   expression(eCO[2])))
@@ -620,6 +699,8 @@ make_figure3 <- function(inDF,
                           ymin=GPP_efficiency_gC_gP.mean-GPP_efficiency_gC_gP.sd), 
                       position = position_dodge(0.9), 
                       width=0.2, size=0.4) +
+        geom_point(data=inDF3, aes(x=variable, y=GPP_efficiency_gC_gP, group=Trt,pch=Trt), 
+                    size=2, color="black", position=position_jitterdodge(width=0.1))+
         labs(x="", 
              y=expression("GPP / Leaf P demand (g C " * g^-1 * " P)"))+
         theme_linedraw() +
@@ -637,10 +718,16 @@ make_figure3 <- function(inDF,
                           labels=c(expression(aCO[2]), expression(eCO[2])))+
         #scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
         #                    labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_shape_manual(name="Treatment",
+                           values=c("aCO2"=22,
+                                    "eCO2"=24),
+                           labels=c("aCO2"=expression(aCO[2]),
+                                    "eCO2"=expression(eCO[2])))+
         scale_x_discrete(limits=c("overstorey","understorey"),
                          labels=c("Overstorey",
                                   "Understorey"))
     
+    #plot(p5)
     
     grid.labs <- c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)")
     
