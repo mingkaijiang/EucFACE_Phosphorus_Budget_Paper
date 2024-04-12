@@ -48,10 +48,10 @@ plot_microbial_p_pool_time_sequence <- function(microbial_p_pool) {
                           labels=c(expression(aCO[2]), expression(eCO[2])))
     
     
-    pdf("output/si_figures/microbial_p_pool_time_series.pdf", width = 6, height = 3)
-    plot(p1)
+    #pdf("output/si_figures/microbial_p_pool_time_series.pdf", width = 6, height = 3)
+    #plot(p1)
     
-    dev.off()
+    #dev.off()
     
     
 }

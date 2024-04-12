@@ -411,7 +411,7 @@ compare_bootstrapped_and_original_CO2_effect_size <- function(summary_table_conc
     
     grid.labs <- c("(a)", "(b)")
     
-    pdf("output/si_figures/bootstrap_comparison_concentration.pdf", width = 16, height = 6)
+    pdf("output/si_figures/si_figure6.pdf", width = 16, height = 6)
     plot_grid(p41, p42, ncol=2)
     grid.text(grid.labs,x = c(0.45, 0.95), y = c(0.95, 0.95),
               gp=gpar(fontsize=16, col="black", fontface="bold"))
@@ -439,8 +439,6 @@ compare_bootstrapped_and_original_CO2_effect_size <- function(summary_table_conc
     plotDF23 <- subset(plotDF2, terms%in%c("Exchangeable Pi Pool",
                                            "Exchangeable Po Pool",
                                            "Moderately labile Po Pool",
-                                           "Secondary Fe bound Pi Pool",
-                                           "Primary Ca bound Pi Pool",
                                            "Occluded P Pool"))
     
     
@@ -612,23 +610,23 @@ compare_bootstrapped_and_original_CO2_effect_size <- function(summary_table_conc
                                    "Bootstrap"="grey"))+
         coord_flip()+
         scale_x_discrete(limits=c("Occluded P Pool",
-                                  "Primary Ca bound Pi Pool",
-                                  "Secondary Fe bound Pi Pool",
+                                  #"Primary Ca bound Pi Pool",
+                                  #"Secondary Fe bound Pi Pool",
                                   "Moderately labile Po Pool",
                                   "Exchangeable Po Pool",
                                   "Exchangeable Pi Pool"),
                          labels=c("Exchangeable Pi Pool" = expression("Exchangeable " * P[i]),
                                   "Exchangeable Po Pool" = expression("Exchangeable " * P[o]),
                                   "Moderately labile Po Pool" = expression("Moderately Labile " * P[o]),
-                                  "Secondary Fe bound Pi Pool" = expression("Secondary " * F[e]-bound * " " * P[i]),
-                                  "Primary Ca bound Pi Pool" = expression("Primary " * C[a]-bound * " " * P[i]),
+                                  #"Secondary Fe bound Pi Pool" = expression("Secondary " * F[e]-bound * " " * P[i]),
+                                  #"Primary Ca bound Pi Pool" = expression("Primary " * C[a]-bound * " " * P[i]),
                                   "Occluded P Pool" = expression("Occluded P")))
     
     
     
     grid.labs <- c("(a)", "(b)", "(c)")
     
-    pdf("output/si_figures/bootstrap_comparison_pool.pdf", width = 14, height = 10)
+    pdf("output/si_figures/si_figure7.pdf", width = 14, height = 10)
     left_col <- plot_grid(p51, p53, ncol=1, rel_heights=c(1.2, 0.8))
     plot_grid(left_col, p52,  ncol = 2, rel_widths = c(1, 1),
               rel_heights=c(1, 1))
@@ -893,7 +891,7 @@ compare_bootstrapped_and_original_CO2_effect_size <- function(summary_table_conc
     ### 
     grid.labs <- c("(a)", "(b)", "(c)", "(d)")
     
-    pdf("output/si_figures/bootstrap_comparison_flux.pdf", width = 12, height = 10)
+    pdf("output/si_figures/si_figure8.pdf", width = 12, height = 10)
     
     plot_grid(p34, p31, p32, p33, ncol=2, nrow=2)
     

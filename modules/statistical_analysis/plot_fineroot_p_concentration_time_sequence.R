@@ -101,7 +101,7 @@ plot_fineroot_p_concentration_time_sequence <- function(fineroot_p_concentration
     #
     #plot(p3)
 
-    pdf("output/si_figures/fineroot_p_concentration_time_series.pdf", width = 12, height = 8)
+    pdf("output/si_figures/si_figure5.pdf", width = 12, height = 8)
     plot_grid(p1, p2,
               ncol=1, labels="auto")
     

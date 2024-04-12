@@ -18,11 +18,11 @@
 ####
 #### 5. Generate un-normalized plots
 ####
-#### 6. Generate normalized responses 
+#### 6. Make plots
 ####
-#### 7. Explore covariates
+#### 7. Analyze time series data
 ####
-#### 8. Generate normalized plots
+#### 8. Bootstrapping method
 
 ##### ---------------------------------------------------------------------------------------------------------##### 
 ##### Step 0: Prepare the repository (clean and read in necessary packages)
@@ -685,16 +685,12 @@ make_si_figure2()
 ### plot P resorption coefficients, si figure 3
 plot_plant_resorption_coefficients(plant_p_retranslocation_coefficients)
 
-
 ### make ed figure 1
 plot_ed_figure1()
-
-
 
 ########################################################################################## 
 ########################################################################################## 
 ##### Step 7: Analyze time-series (long-term vs short-term, seasonal variation)
-
 analyze_time_effect_on_concentration(canopy_p_concentration=canopy_p_concentration,
                                      sapwood_p_concentration=sapwood_p_concentration,
                                      fineroot_p_concentration=fineroot_p_concentration,
@@ -755,8 +751,6 @@ plot_canopy_p_pool_time_sequence(canopy_p_pool=canopy_p_pool)
 
 plot_microbial_p_pool_time_sequence(microbial_p_pool=microbial_p_pool)
 
-#plot_leaflitter_p_pool_time_sequence(leaflitter_p_pool=leaflitter_p_pool)
-
 plot_fineroot_p_concentration_time_sequence(fineroot_p_concentration=fineroot_p_concentration)
 
 
@@ -767,7 +761,6 @@ plot_fineroot_p_concentration_time_sequence(fineroot_p_concentration=fineroot_p_
 #####
 
 ############################## summary tables ###############################
-
 norm = "bootstrap"
 
 #### Summary Tables
@@ -909,68 +902,6 @@ compare_bootstrapped_and_original_CO2_effect_size(summary_table_concentration=su
                                                   summary_table_pool_bootstrap=summary_table_pool_bootstrap,
                                                   summary_table_flux=summary_table_flux,
                                                   summary_table_flux_bootstrap=summary_table_flux_bootstrap)
-
-
-
-
-############################## Budget tables ###############################
-### vegetation standing P stocks
-#total_p_budget_bootstrap <- make_total_p_budget_bootstrap(norm="bootstrap",
-#                                                          canopy_p_pool=canopy_p_pool,
-#                                                          wood_p_pool=wood_p_pool,
-#                                                          sapwood_p_pool=sapwood_p_pool,
-#                                                          fineroot_p_pool=fineroot_p_pool,
-#                                                          coarse_root_p_pool=coarse_root_p_pool,
-#                                                          understorey_p_pool=understorey_p_pool,
-#                                                          standing_dead_p_pool=standing_dead_p_pool,
-#                                                          leaflitter_p_pool=leaflitter_p_pool,
-#                                                          soil_p_mineralization=soil_p_mineralization,
-#                                                          soil_p_leaching=soil_p_leaching,
-#                                                          canopy_p_flux=canopy_p_flux,
-#                                                          frass_p_production=frass_p_production,
-#                                                          leaflitter_p_flux=leaflitter_p_flux,
-#                                                          fineroot_p_production=fineroot_p_production,
-#                                                          fineroot_litter_p_flux=fineroot_litter_p_flux,
-#                                                          twig_litter_p_flux=twig_litter_p_flux,
-#                                                          bark_litter_p_flux=bark_litter_p_flux,
-#                                                          seed_litter_p_flux=seed_litter_p_flux,
-#                                                          wood_p_flux=wood_p_flux,
-#                                                          coarse_root_p_flux=coarse_root_p_flux,
-#                                                          understorey_p_flux=understorey_p_flux,
-#                                                          understorey_litter_p_flux=understorey_litter_p_flux,
-#                                                          canopy_P_retranslocation_flux=canopy_P_retranslocation_flux,
-#                                                          sapwood_P_retranslocation_flux=sapwood_P_retranslocation_flux,
-#                                                          understorey_P_retranslocation_flux=understorey_P_retranslocation_flux,
-#                                                          fineroot_P_retranslocation_flux=fineroot_P_retranslocation_flux,
-#                                                          coarseroot_P_retranslocation_flux=coarseroot_P_retranslocation_flux,
-#                                                          canopy_c_production_flux=canopy_c_production_flux,
-#                                                          wood_c_production=wood_c_production,
-#                                                          fineroot_c_production_flux=fineroot_c_production_flux,
-#                                                          coarse_root_c_flux=coarse_root_c_flux,
-#                                                          understorey_c_flux_clipping=understorey_c_flux_clipping,
-#                                                          frass_c_production_flux=frass_c_production_flux,
-#                                                          twiglitter_c_production_flux=twiglitter_c_production_flux,
-#                                                          barklitter_c_production_flux=barklitter_c_production_flux,
-#                                                          seedlitter_c_production_flux=seedlitter_c_production_flux)
-#
-#
-########################################################################################### 
-########################################################################################### 
-#
-#### plot CO2 effect on the same figure
-#budgetDF=total_p_budget_bootstrap
-#concDF=summary_table_concentration_bootstrap
-#poolDF=summary_table_pool_bootstrap
-#fluxDF=summary_table_flux_bootstrap
-#deltaDF=summary_table_delta_pool_bootstrap
-#cpDF=summary_cp_ratios_bootstrap
-#plot_CO2_effect_on_the_same_figure_bootstrap(budgetDF=total_p_budget_bootstrap,
-#                                             concDF=summary_table_concentration_bootstrap,
-#                                             poolDF=summary_table_pool_bootstrap,
-#                                             fluxDF=summary_table_flux_bootstrap,
-#                                             deltaDF=summary_table_delta_pool_bootstrap,
-#                                             cpDF=summary_cp_ratios_bootstrap)
-#
 
 
 

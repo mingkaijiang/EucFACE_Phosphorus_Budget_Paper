@@ -102,7 +102,7 @@ plot_canopy_p_pool_time_sequence <- function(canopy_p_pool) {
     #
     #plot(p3)
 
-    pdf("output/si_figures/canopy_p_pool_time_series.pdf", width = 16, height = 8)
+    pdf("output/si_figures/si_figure4.pdf", width = 16, height = 8)
     plot_grid(p1, p2,
               ncol=1, labels="auto")
     

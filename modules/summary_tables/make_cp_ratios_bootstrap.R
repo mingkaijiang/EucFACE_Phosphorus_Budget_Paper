@@ -128,6 +128,7 @@ make_cp_ratios_bootstrap <- function(norm,
     
     ### basics
     library(boot)
+    library(gdata)
     set.seed(123)
     
     ### prepare the relationship
@@ -144,11 +145,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(canopy_c_pool$leaf_pool[canopy_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(canopy_c_pool$leaf_pool[canopy_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(canopy_c_pool$leaf_pool[canopy_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(canopy_c_pool$leaf_pool[canopy_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(canopy_p_pool$leaf_p_pool[canopy_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(canopy_p_pool$leaf_p_pool[canopy_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(canopy_p_pool$leaf_p_pool[canopy_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(canopy_p_pool$leaf_p_pool[canopy_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -182,11 +183,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(wood_c_pool$wood_pool[wood_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(wood_c_pool$wood_pool[wood_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(wood_c_pool$wood_pool[wood_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(wood_c_pool$wood_pool[wood_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(wood_p_pool$wood_p_pool[wood_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(wood_p_pool$wood_p_pool[wood_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(wood_p_pool$wood_p_pool[wood_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(wood_p_pool$wood_p_pool[wood_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -220,11 +221,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(wood_c_pool$sap_pool[wood_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(wood_c_pool$sap_pool[wood_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(wood_c_pool$sap_pool[wood_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(wood_c_pool$sap_pool[wood_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(sapwood_p_pool$wood_p_pool[sapwood_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(sapwood_p_pool$wood_p_pool[sapwood_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(sapwood_p_pool$wood_p_pool[sapwood_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(sapwood_p_pool$wood_p_pool[sapwood_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -258,11 +259,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(wood_c_pool$heart_pool[wood_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(wood_c_pool$heart_pool[wood_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(wood_c_pool$heart_pool[wood_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(wood_c_pool$heart_pool[wood_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(heartwood_p_pool$wood_p_pool[heartwood_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(heartwood_p_pool$wood_p_pool[heartwood_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(heartwood_p_pool$wood_p_pool[heartwood_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(heartwood_p_pool$wood_p_pool[heartwood_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -296,11 +297,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(fineroot_c_pool$fineroot_pool[fineroot_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(fineroot_c_pool$fineroot_pool[fineroot_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(fineroot_c_pool$fineroot_pool[fineroot_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(fineroot_c_pool$fineroot_pool[fineroot_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(fineroot_p_pool$fineroot_p_pool[fineroot_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(fineroot_p_pool$fineroot_p_pool[fineroot_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(fineroot_p_pool$fineroot_p_pool[fineroot_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(fineroot_p_pool$fineroot_p_pool[fineroot_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -334,11 +335,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(coarse_root_c_pool$coarse_root_pool[coarse_root_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(coarse_root_c_pool$coarse_root_pool[coarse_root_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(coarse_root_c_pool$coarse_root_pool[coarse_root_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(coarse_root_c_pool$coarse_root_pool[coarse_root_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(coarse_root_p_pool$coarse_root_p_pool[coarse_root_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(coarse_root_p_pool$coarse_root_p_pool[coarse_root_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(coarse_root_p_pool$coarse_root_p_pool[coarse_root_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(coarse_root_p_pool$coarse_root_p_pool[coarse_root_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -372,11 +373,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(understorey_c_pool$Total_g_C_m2[understorey_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(understorey_c_pool$Total_g_C_m2[understorey_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(understorey_c_pool$Total_g_C_m2[understorey_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(understorey_c_pool$Total_g_C_m2[understorey_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(understorey_p_pool$understorey_p_pool[understorey_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(understorey_p_pool$understorey_p_pool[understorey_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(understorey_p_pool$understorey_p_pool[understorey_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(understorey_p_pool$understorey_p_pool[understorey_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -409,11 +410,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(leaflitter_c_pool$leaflitter_pool[leaflitter_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(leaflitter_c_pool$leaflitter_pool[leaflitter_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(leaflitter_c_pool$leaflitter_pool[leaflitter_c_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(leaflitter_c_pool$leaflitter_pool[leaflitter_c_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(leaflitter_p_pool$leaflitter_p_pool[leaflitter_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(leaflitter_p_pool$leaflitter_p_pool[leaflitter_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(leaflitter_p_pool$leaflitter_p_pool[leaflitter_p_pool$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(leaflitter_p_pool$leaflitter_p_pool[leaflitter_p_pool$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -452,11 +453,11 @@ make_cp_ratios_bootstrap <- function(norm,
     totDF2 <- summaryBy(soil_p_g_m2~Date+Ring+Trt, FUN=sum, data=soil_p_pool,
                         na.rm=T, keep.names=T)
     
-    tmpDF1$Cpool <- resample(totDF1$soil_carbon_pool[totDF1$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(totDF1$soil_carbon_pool[totDF1$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(totDF1$soil_carbon_pool[totDF1$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(totDF1$soil_carbon_pool[totDF1$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(totDF2$soil_p_g_m2[totDF2$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(totDF2$soil_p_g_m2[totDF2$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(totDF2$soil_p_g_m2[totDF2$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(totDF2$soil_p_g_m2[totDF2$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -490,11 +491,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(2,3,6)&soil_c_pool$Depth=="0_10"], 1000, replace=T)
-    tmpDF2$Cpool <- resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(1,4,5)&soil_c_pool$Depth=="0_10"], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(2,3,6)&soil_c_pool$Depth=="0_10"], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(1,4,5)&soil_c_pool$Depth=="0_10"], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(2,3,6)&soil_p_pool$Depth=="0_10"], 1000, replace=T)
-    tmpDF2$Ppool <- resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(1,4,5)&soil_p_pool$Depth=="0_10"], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(2,3,6)&soil_p_pool$Depth=="0_10"], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(1,4,5)&soil_p_pool$Depth=="0_10"], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -528,11 +529,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(2,3,6)&soil_c_pool$Depth=="10_30"], 1000, replace=T)
-    tmpDF2$Cpool <- resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(1,4,5)&soil_c_pool$Depth=="10_30"], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(2,3,6)&soil_c_pool$Depth=="10_30"], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(1,4,5)&soil_c_pool$Depth=="10_30"], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(2,3,6)&soil_p_pool$Depth=="10_30"], 1000, replace=T)
-    tmpDF2$Ppool <- resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(1,4,5)&soil_p_pool$Depth=="10_30"], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(2,3,6)&soil_p_pool$Depth=="10_30"], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(1,4,5)&soil_p_pool$Depth=="10_30"], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -565,11 +566,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(2,3,6)&soil_c_pool$Depth=="transition"], 1000, replace=T)
-    tmpDF2$Cpool <- resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(1,4,5)&soil_c_pool$Depth=="transition"], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(2,3,6)&soil_c_pool$Depth=="transition"], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(soil_c_pool$soil_carbon_pool[soil_c_pool$Ring%in%c(1,4,5)&soil_c_pool$Depth=="transition"], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(2,3,6)&soil_p_pool$Depth=="transition"], 1000, replace=T)
-    tmpDF2$Ppool <- resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(1,4,5)&soil_p_pool$Depth=="transition"], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(2,3,6)&soil_p_pool$Depth=="transition"], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(soil_p_pool$soil_p_g_m2[soil_p_pool$Ring%in%c(1,4,5)&soil_p_pool$Depth=="transition"], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -607,11 +608,11 @@ make_cp_ratios_bootstrap <- function(norm,
     totDF2 <- summaryBy(microbial_p_g_m2~Date+Ring+Trt, FUN=sum, data=microbial_p_pool,
                         na.rm=T, keep.names=T)
     
-    tmpDF1$Cpool <- resample(totDF1$Cmic_g_m2[totDF1$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(totDF1$Cmic_g_m2[totDF1$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(totDF1$Cmic_g_m2[totDF1$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(totDF1$Cmic_g_m2[totDF1$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(totDF2$microbial_p_g_m2[totDF2$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(totDF2$microbial_p_g_m2[totDF2$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(totDF2$microbial_p_g_m2[totDF2$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(totDF2$microbial_p_g_m2[totDF2$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -646,11 +647,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(2,3,6)&microbial_c_pool$Depth=="0_10"], 1000, replace=T)
-    tmpDF2$Cpool <- resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(1,4,5)&microbial_c_pool$Depth=="0_10"], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(2,3,6)&microbial_c_pool$Depth=="0_10"], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(1,4,5)&microbial_c_pool$Depth=="0_10"], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(2,3,6)&microbial_p_pool$Depth=="0_10"], 1000, replace=T)
-    tmpDF2$Ppool <- resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(1,4,5)&microbial_p_pool$Depth=="0_10"], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(2,3,6)&microbial_p_pool$Depth=="0_10"], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(1,4,5)&microbial_p_pool$Depth=="0_10"], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -684,11 +685,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(2,3,6)&microbial_c_pool$Depth=="10_30"], 1000, replace=T)
-    tmpDF2$Cpool <- resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(1,4,5)&microbial_c_pool$Depth=="10_30"], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(2,3,6)&microbial_c_pool$Depth=="10_30"], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(1,4,5)&microbial_c_pool$Depth=="10_30"], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(2,3,6)&microbial_p_pool$Depth=="10_30"], 1000, replace=T)
-    tmpDF2$Ppool <- resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(1,4,5)&microbial_p_pool$Depth=="10_30"], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(2,3,6)&microbial_p_pool$Depth=="10_30"], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(1,4,5)&microbial_p_pool$Depth=="10_30"], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -722,11 +723,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(2,3,6)&microbial_c_pool$Depth=="transition"], 1000, replace=T)
-    tmpDF2$Cpool <- resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(1,4,5)&microbial_c_pool$Depth=="transition"], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(2,3,6)&microbial_c_pool$Depth=="transition"], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(microbial_c_pool$Cmic_g_m2[microbial_c_pool$Ring%in%c(1,4,5)&microbial_c_pool$Depth=="transition"], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(2,3,6)&microbial_p_pool$Depth=="transition"], 1000, replace=T)
-    tmpDF2$Ppool <- resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(1,4,5)&microbial_p_pool$Depth=="transition"], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(2,3,6)&microbial_p_pool$Depth=="transition"], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(microbial_p_pool$microbial_p_g_m2[microbial_p_pool$Ring%in%c(1,4,5)&microbial_p_pool$Depth=="transition"], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -759,11 +760,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(understorey_litter_c_flux$understorey_litter_flux[understorey_litter_c_flux$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(understorey_litter_c_flux$understorey_litter_flux[understorey_litter_c_flux$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(understorey_litter_c_flux$understorey_litter_flux[understorey_litter_c_flux$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(understorey_litter_c_flux$understorey_litter_flux[understorey_litter_c_flux$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(understorey_litter_p_flux$understorey_litter_p_flux[understorey_litter_p_flux$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(understorey_litter_p_flux$understorey_litter_p_flux[understorey_litter_p_flux$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(understorey_litter_p_flux$understorey_litter_p_flux[understorey_litter_p_flux$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(understorey_litter_p_flux$understorey_litter_p_flux[understorey_litter_p_flux$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)
@@ -797,11 +798,11 @@ make_cp_ratios_bootstrap <- function(norm,
     tmpDF2 <- tmpDF1
     
     ### change of method to estimate aggregated fluxes
-    tmpDF1$Cpool <- resample(frass_c_production_flux$frass_production_flux[frass_c_production_flux$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Cpool <- resample(frass_c_production_flux$frass_production_flux[frass_c_production_flux$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Cpool <- gdata::resample(frass_c_production_flux$frass_production_flux[frass_c_production_flux$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Cpool <- gdata::resample(frass_c_production_flux$frass_production_flux[frass_c_production_flux$Ring%in%c(1,4,5)], 1000, replace=T)
     
-    tmpDF1$Ppool <- resample(frass_p_production$frass_p_flux_mg_m2_d[frass_p_production$Ring%in%c(2,3,6)], 1000, replace=T)
-    tmpDF2$Ppool <- resample(frass_p_production$frass_p_flux_mg_m2_d[frass_p_production$Ring%in%c(1,4,5)], 1000, replace=T)
+    tmpDF1$Ppool <- gdata::resample(frass_p_production$frass_p_flux_mg_m2_d[frass_p_production$Ring%in%c(2,3,6)], 1000, replace=T)
+    tmpDF2$Ppool <- gdata::resample(frass_p_production$frass_p_flux_mg_m2_d[frass_p_production$Ring%in%c(1,4,5)], 1000, replace=T)
     
     tmpDF1$CPratio <- with(tmpDF1, Cpool/Ppool)
     tmpDF2$CPratio <- with(tmpDF2, Cpool/Ppool)

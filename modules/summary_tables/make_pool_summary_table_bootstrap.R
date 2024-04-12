@@ -52,8 +52,6 @@ make_pool_summary_table_bootstrap <- function(norm,
                "Exchangeable Pi Pool", 
                "Exchangeable Po Pool",
                "Moderately labile Po Pool", 
-               "Secondary Fe bound Pi Pool", 
-               "Primary Ca bound Pi Pool",
                "Occluded P Pool")
     
     treatDF <- data.frame(terms)
@@ -572,51 +570,6 @@ make_pool_summary_table_bootstrap <- function(norm,
     
     treatDF$diff_ci_low_75[treatDF$terms == "Moderately labile Po Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.75)$bca[4])
     treatDF$diff_ci_high_75[treatDF$terms == "Moderately labile Po Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.75)$bca[5])
-    
-    
-
-    ### Secondary Fe bound Pi Pool
-    # bootstrapping with 1000 replications 
-    results <- boot(data=soil_p_pool_hedley, statistic=bs, 
-                    R=1000, formula=F3_Fe_bound_P_Secondary_mineral~Trt)
-    
-    # assign values 
-    treatDF$aCO2[treatDF$terms == "Secondary Fe bound Pi Pool"] <- as.numeric(results$t0[1])
-    treatDF$aCO2_ci_low[treatDF$terms == "Secondary Fe bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=1)$bca[4])
-    treatDF$aCO2_ci_high[treatDF$terms == "Secondary Fe bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=1)$bca[5])
-    
-    treatDF$diff[treatDF$terms == "Secondary Fe bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.95)[2])
-    treatDF$diff_ci_low_95[treatDF$terms == "Secondary Fe bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.95)$bca[4])
-    treatDF$diff_ci_high_95[treatDF$terms == "Secondary Fe bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.95)$bca[5])
-    
-    treatDF$diff_ci_low_85[treatDF$terms == "Secondary Fe bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.85)$bca[4])
-    treatDF$diff_ci_high_85[treatDF$terms == "Secondary Fe bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.85)$bca[5])
-    
-    treatDF$diff_ci_low_75[treatDF$terms == "Secondary Fe bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.75)$bca[4])
-    treatDF$diff_ci_high_75[treatDF$terms == "Secondary Fe bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.75)$bca[5])
-    
-    
-    
-    ### Primary Ca bound Pi Pool
-    # bootstrapping with 1000 replications 
-    results <- boot(data=soil_p_pool_hedley, statistic=bs, 
-                    R=1000, formula=F4_Ca_bound_Primary_Mineral~Trt)
-    
-    # assign values 
-    treatDF$aCO2[treatDF$terms == "Primary Ca bound Pi Pool"] <- as.numeric(results$t0[1])
-    treatDF$aCO2_ci_low[treatDF$terms == "Primary Ca bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=1)$bca[4])
-    treatDF$aCO2_ci_high[treatDF$terms == "Primary Ca bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=1)$bca[5])
-    
-    treatDF$diff[treatDF$terms == "Primary Ca bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.95)[2])
-    treatDF$diff_ci_low_95[treatDF$terms == "Primary Ca bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.95)$bca[4])
-    treatDF$diff_ci_high_95[treatDF$terms == "Primary Ca bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.95)$bca[5])
-    
-    treatDF$diff_ci_low_85[treatDF$terms == "Primary Ca bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.85)$bca[4])
-    treatDF$diff_ci_high_85[treatDF$terms == "Primary Ca bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.85)$bca[5])
-    
-    treatDF$diff_ci_low_75[treatDF$terms == "Primary Ca bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.75)$bca[4])
-    treatDF$diff_ci_high_75[treatDF$terms == "Primary Ca bound Pi Pool"] <- as.numeric(boot.ci(results, type="bca", index=2, conf=0.75)$bca[5])
-    
     
     
     ### Occluded P Pool

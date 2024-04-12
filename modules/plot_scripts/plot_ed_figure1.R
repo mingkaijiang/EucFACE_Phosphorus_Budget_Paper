@@ -245,36 +245,36 @@ plot_ed_figure1 <- function() {
     ### remove negative values
     mapDF[mapDF<0] <- NA
     
-    ### prepare reclassify DF
-    ### Terrer real value
-    class.m.t <- c(-9.99, 2, 1,
-                   2, 5, 2,
-                   5, 10, 3,
-                   10, 15, 4,
-                   15, 20, 5,
-                   20, 30, 6,
-                   30, 40, 7,
-                   40, 140, 8)
-    
-    rcl.m.t <- matrix(class.m.t,
-                      ncol=3,
-                      byrow=T)
-    
-    ### reclassify
-    mapDF2 <- reclassify(mapDF, rcl.m.t)
+    #### prepare reclassify DF
+    #### Terrer real value
+    #class.m.t <- c(-9.99, 2, 1,
+    #               2, 5, 2,
+    #               5, 10, 3,
+    #               10, 15, 4,
+    #               15, 20, 5,
+    #               20, 30, 6,
+    #               30, 40, 7,
+    #               40, 140, 8)
+    #
+    #rcl.m.t <- matrix(class.m.t,
+    #                  ncol=3,
+    #                  byrow=T)
+    #
+    #### reclassify
+    #mapDF2 <- reclassify(mapDF, rcl.m.t)
     
     ### prepare plotting
-    color.scheme <- c("purple", "orange", "yellow", "lightgreen", "darkgreen")
-    color.scheme2 <- c("brown", "red2", "orange", "lightgreen",
-                       "lightblue", "cyan4", "blue", "darkblue")
+    #color.scheme <- c("purple", "orange", "yellow", "lightgreen", "darkgreen")
+    #color.scheme2 <- c("brown", "red2", "orange", "lightgreen",
+    #                   "lightblue", "cyan4", "blue", "darkblue")
     
     
     #### include leaf NP grid information
     ### global dataset
-    leafDF <- read.csv("data/literature/Leaf_nitrogen_and_phosphorus_concentrations_data.csv")
-    treeDF <- subset(leafDF, Life_form1 == "T")
-    treeDF$lab <- "Leaf NP dataset"
-    treeDF <- treeDF[,c("lab", "Latitude", "Longitude")]
+    #leafDF <- read.csv("data/literature/Leaf_nitrogen_and_phosphorus_concentrations_data.csv")
+    #treeDF <- subset(leafDF, Life_form1 == "T")
+    #treeDF$lab <- "Leaf NP dataset"
+    #treeDF <- treeDF[,c("lab", "Latitude", "Longitude")]
     
     
     
@@ -351,7 +351,7 @@ plot_ed_figure1 <- function() {
         xlab("Soil available P (ppm)")
     
     
-    plot(p2)
+    #plot(p2)
     
     #### Plotting
     pdf("output/si_figures/Shangguan_P_density_plot.pdf", width = 6, height = 3)
