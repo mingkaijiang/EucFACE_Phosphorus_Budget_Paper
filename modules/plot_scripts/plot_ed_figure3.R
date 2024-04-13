@@ -28,6 +28,13 @@ plot_ed_figure3 <- function(inDF,
                                          "heartwood")]
     
     
+    plotDF1i <- myDF[myDF$Variable%in%c("canopy", "leaflitter",
+                                        "fineroot", "understorey",
+                                        "understorey_litter", "frass")]
+    
+    plotDF2i <- myDF[myDF$Variable%in%c("wood", "sapwood",
+                                        "heartwood")]
+    
     # read in tmpDF
     # read in the Oct 2018 Johanna data at deeper depths
     tmpDF <- read.csv("data/raw/belowground_P_working_sheet.csv")
@@ -53,12 +60,14 @@ plot_ed_figure3 <- function(inDF,
                       na.rm=T, keep.names=T)
     
     
-    ###plot the three, check statistical significance
-    p1 <- ggplot(plotDF1, aes(x=Variable, y=value.mean))+
+    ###plot
+    p1 <- ggplot(plotDF1, aes(x=Variable, y=value.mean, group=Trt))+
         geom_bar(stat = "identity", aes(fill=Trt), position="dodge", color="black")+
         geom_errorbar(aes(ymax=value.mean+value.sd, ymin=value.mean-value.sd, 
                           color=factor(Trt)), 
                       position = position_dodge(0.9), width=0.2, size=0.4) +
+        geom_point(data=plotDF1i, aes(x=Variable, y=value, pch=Trt), size=2, color="black",
+                   position=position_jitterdodge(dodge.width=0.8))+
         labs(x="", y="CP ratio")+
         theme_linedraw() +
         #ylim(0,0.15)+
@@ -78,7 +87,12 @@ plot_ed_figure3 <- function(inDF,
         scale_fill_manual(name="", values = c("amb" = Pastel1Palette[6], "ele" = Pastel1Palette[8]),
                           labels=c(expression(aCO[2]), expression(eCO[2])))+
         scale_colour_manual(name="", values = c("amb" = "black", "ele" = "black"),
-                            labels=c(expression(aCO[2]), expression(eCO[2])))
+                            labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_shape_manual(name="Treatment",
+                           values=c("amb"=22,
+                                    "ele"=24),
+                           labels=c("amb"=expression(aCO[2]),
+                                    "ele"=expression(eCO[2])))
     
     
     p2 <- ggplot(plotDF2, aes(x=Variable, y=value.mean))+
@@ -86,6 +100,8 @@ plot_ed_figure3 <- function(inDF,
         geom_errorbar(aes(ymax=value.mean+value.sd, ymin=value.mean-value.sd, 
                           color=factor(Trt)), 
                       position = position_dodge(0.9), width=0.2, size=0.4) +
+        geom_point(data=plotDF2i, aes(x=Variable, y=value, pch=Trt), size=2, color="black",
+                   position=position_jitterdodge(dodge.width=0.8))+
         labs(x="", y="CP ratio")+
         theme_linedraw() +
         #ylim(0,0.15)+
@@ -103,7 +119,12 @@ plot_ed_figure3 <- function(inDF,
         scale_fill_manual(name="", values = c("amb" = Pastel1Palette[6], "ele" = Pastel1Palette[8]),
                           labels=c(expression(aCO[2]), expression(eCO[2])))+
         scale_colour_manual(name="", values = c("amb" = "black", "ele" = "black"),
-                            labels=c(expression(aCO[2]), expression(eCO[2])))
+                            labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_shape_manual(name="Treatment",
+                           values=c("amb"=22,
+                                    "ele"=24),
+                           labels=c("amb"=expression(aCO[2]),
+                                    "ele"=expression(eCO[2])))
     
     
     p3 <- ggplot(plotDF3, aes(x=Depth, y=CPratio.mean))+
@@ -111,6 +132,8 @@ plot_ed_figure3 <- function(inDF,
         geom_errorbar(aes(ymax=CPratio.mean+CPratio.sd, ymin=CPratio.mean-CPratio.sd, 
                           color=factor(Trt)), 
                       position = position_dodge(0.9), width=0.2, size=0.4) +
+        geom_point(data=tmpDF, aes(x=Depth, y=CPratio, pch=Trt), size=2, color="black",
+                   position=position_jitterdodge(dodge.width=0.8))+
         labs(x="", y="CP ratio")+
         theme_linedraw() +
         #ylim(0,0.15)+
@@ -129,7 +152,12 @@ plot_ed_figure3 <- function(inDF,
         scale_fill_manual(name="", values = c("Ambient" = Pastel1Palette[6], "Elevated" = Pastel1Palette[8]),
                           labels=c(expression(aCO[2]), expression(eCO[2])))+
         scale_colour_manual(name="", values = c("Ambient" = "black", "Elevated" = "black"),
-                            labels=c(expression(aCO[2]), expression(eCO[2])))
+                            labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_shape_manual(name="Treatment",
+                           values=c("Ambient"=22,
+                                    "Elevated"=24),
+                           labels=c("Ambient"=expression(aCO[2]),
+                                    "Elevated"=expression(eCO[2])))
     
     
     
@@ -147,5 +175,5 @@ plot_ed_figure3 <- function(inDF,
               gp=gpar(fontsize=16, col="black", fontface="bold"))
     dev.off()
     
-}
+ }
 

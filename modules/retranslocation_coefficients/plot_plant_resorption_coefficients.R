@@ -14,14 +14,17 @@ plot_plant_resorption_coefficients <- function(plant_p_retranslocation_coefficie
                          na.rm=T, keep.names=T)
     
     plotDF2 <- plotDF2[plotDF2$component%in%c("canopy", "understorey", "sapwood"),]
+    plotDF2i <- plotDF[plotDF$component%in%c("canopy", "understorey", "sapwood"),]
     
-    #p1 <- ggplot(plotDF, aes(x=component, y=value, group=Ring))+
-    #    geom_bar(aes(fill=Ring), position="dodge", stat="identity") 
+
     
+    ### plot
     p2 <- ggplot(plotDF2, aes(x=component, y=value.mean, group=Trt))+
         geom_bar(aes(fill=Trt), position="dodge", stat="identity", col="black")+
         geom_errorbar(aes(ymin=value.mean-value.sd, ymax=value.mean+value.sd),
                       position = position_dodge(0.9), width=0.4, size=0.4)+
+        geom_point(data=plotDF2i, aes(x=component, y=value, pch=Trt), size=2, color="black",
+                   position=position_jitterdodge(dodge.width=0.8))+
         theme_linedraw() +
         theme(panel.grid.minor=element_blank(),
               axis.title.x = element_text(size=10), 
@@ -34,7 +37,13 @@ plot_plant_resorption_coefficients <- function(plant_p_retranslocation_coefficie
               legend.position="right")+
         labs(x="", y="Resorption coefficient")+
         scale_fill_manual(name="", values = c("amb" = Pastel1Palette[6], "ele" = Pastel1Palette[8]),
-                          labels=c(expression(aCO[2]), expression(eCO[2])))
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_shape_manual(name="Treatment",
+                           values=c("amb"=22,
+                                    "ele"=24),
+                           labels=c("amb"=expression(aCO[2]),
+                                    "ele"=expression(eCO[2])))+
+        guides(linetype=FALSE,color=FALSE)
     
     
     

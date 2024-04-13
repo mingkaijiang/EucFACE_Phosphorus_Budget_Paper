@@ -312,24 +312,7 @@ make_pool_summary_table <- function(norm,
     treatDF$year_end[treatDF$terms == "Moderately labile Po Pool"] <- max(soil_hedley_p_concentration$Year)   
     treatDF$timepoint[treatDF$terms == "Moderately labile Po Pool"] <- length(unique(soil_hedley_p_concentration$Year))  
     treatDF$notes[treatDF$terms == "Moderately labile Po Pool"] <- "unclear depth info"
-    
-
-    ### Secondary Fe bound Pi Pool
-    #out <- summaryBy(F3_Fe_bound_P_Secondary_mineral~Ring,data=soil_p_pool_hedley,FUN=mean,keep.names=T,na.rm=T)
-    #treatDF[treatDF$terms == "Secondary Fe bound Pi Pool", 2:7] <- out$F3_Fe_bound_P_Secondary_mineral
-    #treatDF$year_start[treatDF$terms == "Secondary Fe bound Pi Pool"] <- min(soil_hedley_p_concentration$Year)    
-    #treatDF$year_end[treatDF$terms == "Secondary Fe bound Pi Pool"] <- max(soil_hedley_p_concentration$Year)   
-    #treatDF$timepoint[treatDF$terms == "Secondary Fe bound Pi Pool"] <- length(unique(soil_hedley_p_concentration$Year))  
-    #treatDF$notes[treatDF$terms == "Secondary Fe bound Pi Pool"] <- "unclear depth info"
-    #
-    #### Primary Ca bound Pi Pool
-    #out <- summaryBy(F4_Ca_bound_Primary_Mineral~Ring,data=soil_p_pool_hedley,FUN=mean,keep.names=T,na.rm=T)
-    #treatDF[treatDF$terms == "Primary Ca bound Pi Pool", 2:7] <- out$F4_Ca_bound_Primary_Mineral
-    #treatDF$year_start[treatDF$terms == "Primary Ca bound Pi Pool"] <- min(soil_hedley_p_concentration$Year)    
-    #treatDF$year_end[treatDF$terms == "Primary Ca bound Pi Pool"] <- max(soil_hedley_p_concentration$Year)   
-    #treatDF$timepoint[treatDF$terms == "Primary Ca bound Pi Pool"] <- length(unique(soil_hedley_p_concentration$Year))  
-    #treatDF$notes[treatDF$terms == "Primary Ca bound Pi Pool"] <- "unclear depth info"
-    
+   
     ### Occluded P Pool
     out <- summaryBy(F5_6_Occluded~Ring,data=soil_p_pool_hedley,FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Occluded P Pool", 2:7] <- out$F5_6_Occluded
@@ -337,32 +320,6 @@ make_pool_summary_table <- function(norm,
     treatDF$year_end[treatDF$terms == "Occluded P Pool"] <- max(soil_hedley_p_concentration$Year)   
     treatDF$timepoint[treatDF$terms == "Occluded P Pool"] <- length(unique(soil_hedley_p_concentration$Year))  
     treatDF$notes[treatDF$terms == "Occluded P Pool"] <- "unclear depth info"
-    
-    
-    ### Mycorrhizal P pool
-    #out <- summaryBy(mycorrhizal_p_g_m2~Ring,data=mycorrhizal_p_pool[mycorrhizal_p_pool$Depth=="0_10",],FUN=mean,keep.names=T,na.rm=T)
-    #treatDF[treatDF$terms == "Mycorrhizal P pool 0-10cm", 2:7] <- out$mycorrhizal_p_g_m2
-    #treatDF$year_start[treatDF$terms == "Mycorrhizal P pool 0-10cm"] <- min(year(mycorrhizal_p_pool$Date[mycorrhizal_p_pool$Depth=="0_10"]))    
-    #treatDF$year_end[treatDF$terms == "Mycorrhizal P pool 0-10cm"] <- max(year(mycorrhizal_p_pool$Date[mycorrhizal_p_pool$Depth=="0_10"]))    
-    #treatDF$timepoint[treatDF$terms == "Mycorrhizal P pool 0-10cm"] <- length(unique(mycorrhizal_p_pool$Date[mycorrhizal_p_pool$Depth=="0_10"]))  
-    #treatDF$notes[treatDF$terms == "Mycorrhizal P pool 0-10cm"] <- "Top 10 cm"
-    #
-    #### Mycorrhizal P pool
-    #out <- summaryBy(mycorrhizal_p_g_m2~Ring,data=mycorrhizal_p_pool[mycorrhizal_p_pool$Depth=="10_30",],FUN=mean,keep.names=T,na.rm=T)
-    #treatDF[treatDF$terms == "Mycorrhizal P pool 10-30cm", 2:7] <- out$mycorrhizal_p_g_m2
-    #treatDF$year_start[treatDF$terms == "Mycorrhizal P pool 10-30cm"] <- min(year(mycorrhizal_p_pool$Date[mycorrhizal_p_pool$Depth=="10_30"]))    
-    #treatDF$year_end[treatDF$terms == "Mycorrhizal P pool 10-30cm"] <- max(year(mycorrhizal_p_pool$Date[mycorrhizal_p_pool$Depth=="10_30"]))    
-    #treatDF$timepoint[treatDF$terms == "Mycorrhizal P pool 10-30cm"] <- length(unique(mycorrhizal_p_pool$Date[mycorrhizal_p_pool$Depth=="10_30"]))  
-    #treatDF$notes[treatDF$terms == "Mycorrhizal P pool 10-30cm"] <- "Top 10-30 cm"
-    #
-    #### MMycorrhizal P pool
-    #out <- summaryBy(mycorrhizal_p_g_m2~Ring,data=mycorrhizal_p_pool[mycorrhizal_p_pool$Depth=="transition",],FUN=mean,keep.names=T,na.rm=T)
-    #treatDF[treatDF$terms == "Mycorrhizal P pool 30-60cm", 2:7] <- out$mycorrhizal_p_g_m2
-    #treatDF$year_start[treatDF$terms == "Mycorrhizal P pool 30-60cm"] <- min(year(mycorrhizal_p_pool$Date[mycorrhizal_p_pool$Depth=="transition"]))    
-    #treatDF$year_end[treatDF$terms == "Mycorrhizal P pool 30-60cm"] <- max(year(mycorrhizal_p_pool$Date[mycorrhizal_p_pool$Depth=="transition"]))    
-    #treatDF$timepoint[treatDF$terms == "Mycorrhizal P pool 30-60cm"] <- length(unique(mycorrhizal_p_pool$Date[mycorrhizal_p_pool$Depth=="transition"]))  
-    #treatDF$notes[treatDF$terms == "Mycorrhizal P pool 30-60cm"] <- "Top 10 cm"
-    
     
     
     ### given that the sum of inorganic P and organic P pool does not add up to total, 

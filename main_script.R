@@ -646,6 +646,12 @@ make_figure3(inDF=total_p_budget,
 inDF=summary_table_concentration
 make_ed_figure2(inDF=summary_table_concentration)
 
+### plot CP ratios
+inDF=summary_cp_ratios
+ppool=summary_table_pool
+plot_ed_figure3(inDF=summary_cp_ratios,
+                ppool=summary_table_pool)
+
 ### P pool
 inDF=summary_table_pool
 make_figure2(inDF=summary_table_pool)
@@ -671,12 +677,6 @@ plot_CO2_effect_on_the_same_figure(budgetDF=total_p_budget,
                                    fluxDF=summary_table_flux,
                                    deltaDF=summary_table_delta_pool,
                                    cpDF=summary_cp_ratios)
-
-### plot CP ratios
-inDF=summary_cp_ratios
-ppool=summary_table_pool
-plot_ed_figure4(inDF=summary_cp_ratios,
-                ppool=summary_table_pool)
 
 
 ### microbial P concentration
@@ -746,7 +746,7 @@ analyze_time_effect_on_flux(soil_p_mineralization=soil_p_mineralization,
 
 
 ### plot the time sequence data for selected variables
-### canopy P pool
+### supplmentary figures 4 and 5
 plot_canopy_p_pool_time_sequence(canopy_p_pool=canopy_p_pool)
 
 plot_microbial_p_pool_time_sequence(microbial_p_pool=microbial_p_pool)

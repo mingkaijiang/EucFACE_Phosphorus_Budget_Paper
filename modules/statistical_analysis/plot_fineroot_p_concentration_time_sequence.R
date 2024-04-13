@@ -18,6 +18,8 @@ plot_fineroot_p_concentration_time_sequence <- function(fineroot_p_concentration
                        data=fineroot_p_concentration, na.rm=T, keep.names=T)
     sumDF2 <- summaryBy(PercP~YearFactor+TrtFactor, FUN=c(mean,sd),
                         data=fineroot_p_concentration, na.rm=T, keep.names=T)
+    sumDF2i <- summaryBy(PercP~YearFactor+RingFactor+TrtFactor, FUN=c(mean,sd),
+                         data=fineroot_p_concentration, na.rm=T, keep.names=T)
     
     ### statistics
     #mod.result <- lmer(leaf_p_pool~YearFactor * TrtFactor + (1|RingFactor),data=fineroot_p_concentration)
@@ -66,6 +68,8 @@ plot_fineroot_p_concentration_time_sequence <- function(fineroot_p_concentration
         geom_bar(aes(fill=TrtFactor), position="dodge", stat="identity", col="black")+
         geom_errorbar(aes(ymin=PercP.mean-PercP.sd, ymax=PercP.mean+PercP.sd),
                       position = position_dodge(0.9), width=0.4, size=0.4)+
+        geom_point(data=sumDF2i, aes(x=YearFactor, y=PercP.mean, pch=TrtFactor), size=2, color="black",
+                   position=position_jitterdodge(dodge.width=0.8))+
         theme_linedraw() +
         theme(panel.grid.minor=element_blank(),
               axis.title.x = element_text(size=10), 
@@ -78,28 +82,14 @@ plot_fineroot_p_concentration_time_sequence <- function(fineroot_p_concentration
               legend.position="right")+
         labs(x="", y=expression("Fineroot P concentration (%)"))+
         scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
-                          labels=c(expression(aCO[2]), expression(eCO[2])))
-    
-    #p3 <- ggplot(sumDF3, aes(x=TrtFactor, y=emmean, group=YearFactor))+
-    #    geom_errorbar(aes(x=TrtFactor, ymin=lower.CL, ymax=upper.CL),
-    #                  position="dodge", stat="identity")+
-    #    geom_line(aes(col=YearFactor))+
-    #    geom_point(aes(fill=YearFactor), position="dodge", stat="identity", pch=21, col="black")+
-    #    theme_linedraw() +
-    #    theme(panel.grid.minor=element_blank(),
-    #          axis.title.x = element_text(size=10), 
-    #          axis.text.x = element_text(size=10),
-    #          axis.text.y=element_text(size=12),
-    #          axis.title.y=element_text(size=14),
-    #          legend.text=element_text(size=12),
-    #          legend.title=element_text(size=14),
-    #          panel.grid.major=element_blank(),
-    #          legend.position="right")+
-    #    labs(x="", y=expression("Canopy P Pool (g P " * m^-2 * ")"))#+
-    #    #scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
-    #    #                  labels=c(expression(aCO[2]), expression(eCO[2])))
-    #
-    #plot(p3)
+                          labels=c(expression(aCO[2]), expression(eCO[2])))+
+        scale_shape_manual(name="",
+                           values=c("aCO2"=22,
+                                    "eCO2"=24),
+                           labels=c("aCO2"=expression(aCO[2]),
+                                    "eCO2"=expression(eCO[2])))+
+        guides(linetype=FALSE,color=FALSE)
+   
 
     pdf("output/si_figures/si_figure5.pdf", width = 12, height = 8)
     plot_grid(p1, p2,
