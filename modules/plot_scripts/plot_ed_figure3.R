@@ -79,20 +79,24 @@ plot_ed_figure3 <- function(inDF,
               legend.text=element_text(size=12),
               legend.title=element_text(size=14),
               panel.grid.major=element_blank(),
-              legend.position="none")+
+              legend.position=c(0.9, 0.8),
+              legend.background = element_rect(fill="grey",
+                                               size=0.5, linetype="solid", 
+                                               colour ="black"))+
         scale_x_discrete(limits=c("canopy", "leaflitter", "fineroot",
                                   "understorey", "understorey_litter", "frass"),
                          labels=c("canopy", "canopy leaf litter", "fineroot",
                                   "understorey", "understorey litter", "frass"))+
-        scale_fill_manual(name="", values = c("amb" = Pastel1Palette[6], "ele" = Pastel1Palette[8]),
+        scale_fill_manual(name="Treatment", values = c("amb" = Pastel1Palette[6], "ele" = Pastel1Palette[8]),
                           labels=c(expression(aCO[2]), expression(eCO[2])))+
-        scale_colour_manual(name="", values = c("amb" = "black", "ele" = "black"),
+        scale_colour_manual(name="Treatment", values = c("amb" = "black", "ele" = "black"),
                             labels=c(expression(aCO[2]), expression(eCO[2])))+
         scale_shape_manual(name="Treatment",
                            values=c("amb"=22,
                                     "ele"=24),
                            labels=c("amb"=expression(aCO[2]),
-                                    "ele"=expression(eCO[2])))
+                                    "ele"=expression(eCO[2])))+
+        guides(linetype=FALSE,color=FALSE)
     
     
     p2 <- ggplot(plotDF2, aes(x=Variable, y=value.mean))+

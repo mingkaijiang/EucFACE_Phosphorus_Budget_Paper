@@ -836,7 +836,9 @@ make_figure2 <- function(inDF) {
               legend.text=element_text(size=12),
               legend.title=element_text(size=14),
               panel.grid.major=element_blank(),
-              legend.position = c(0.8, 0.2),
+              legend.position = c(0.6, 0.2),
+              legend.box="horizontal",
+              legend.direction="vertical",
               legend.background = element_rect(fill="grey",
                                                size=0.5, linetype="solid", 
                                                colour ="black"))+
@@ -854,8 +856,7 @@ make_figure2 <- function(inDF) {
                            values=c("aCO2"=22,
                                     "eCO2"=24),
                            labels=c("aCO2"=expression(aCO[2]),
-                                    "eCO2"=expression(eCO[2])))+
-        guides(shape=F)
+                                    "eCO2"=expression(eCO[2])))
         
 
     ### plot vegetation P pool

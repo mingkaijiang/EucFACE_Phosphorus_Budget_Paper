@@ -593,7 +593,7 @@ make_figure3 <- function(inDF,
               legend.text=element_text(size=10),
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
-              legend.position = c(0.6, 0.2),
+              legend.position = c(0.8, 0.2),
               legend.box="horizontal",
               legend.direction="vertical",
               legend.background = element_rect(fill="grey",
@@ -613,7 +613,8 @@ make_figure3 <- function(inDF,
                                     "eCO2"=expression(eCO[2])))+
         scale_x_discrete(limits=c("aCO2","eCO2"),
                          labels=c(expression(aCO[2]),
-                                  expression(eCO[2])))
+                                  expression(eCO[2])))+
+        guides(linetype=FALSE,shape=FALSE)
     
     #plot(p2)
     
@@ -639,10 +640,13 @@ make_figure3 <- function(inDF,
               legend.text=element_text(size=10),
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
-              legend.position="none")+
-        scale_fill_manual(name="", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
+              legend.position=c(0.7, 0.8),
+              legend.background = element_rect(fill="grey",
+                                               size=0.5, linetype="solid", 
+                                               colour ="black"))+
+        scale_fill_manual(name="Treatment", values = c("aCO2" = Pastel1Palette[6], "eCO2" = Pastel1Palette[8]),
                           labels=c(expression(aCO[2]), expression(eCO[2])))+
-        scale_colour_manual(name="", values = c("aCO2" = "black", "eCO2" = "black"),
+        scale_colour_manual(name="Treatment", values = c("aCO2" = "black", "eCO2" = "black"),
                             labels=c(expression(aCO[2]), expression(eCO[2])))+
         scale_shape_manual(name="Treatment",
                            values=c("aCO2"=22,
@@ -651,7 +655,8 @@ make_figure3 <- function(inDF,
                                     "eCO2"=expression(eCO[2])))+
         scale_x_discrete(limits=c("aCO2","eCO2"),
                          labels=c(expression(aCO[2]),
-                                  expression(eCO[2])))
+                                  expression(eCO[2])))+
+        guides(linetype=FALSE,color=FALSE)
     
     
     p4 <- ggplot(plotDF8,
@@ -700,7 +705,7 @@ make_figure3 <- function(inDF,
                       position = position_dodge(0.9), 
                       width=0.2, size=0.4) +
         geom_point(data=inDF3, aes(x=variable, y=GPP_efficiency_gC_gP, group=Trt,pch=Trt), 
-                    size=2, color="black", position=position_jitterdodge(width=0.1))+
+                    size=2, color="black", position=position_jitterdodge())+
         labs(x="", 
              y=expression("GPP / Leaf P demand (g C " * g^-1 * " P)"))+
         theme_linedraw() +

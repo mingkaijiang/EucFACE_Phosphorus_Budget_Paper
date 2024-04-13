@@ -36,7 +36,7 @@ plot_plant_resorption_coefficients <- function(plant_p_retranslocation_coefficie
               panel.grid.major=element_blank(),
               legend.position="right")+
         labs(x="", y="Resorption coefficient")+
-        scale_fill_manual(name="", values = c("amb" = Pastel1Palette[6], "ele" = Pastel1Palette[8]),
+        scale_fill_manual(name="Treatment", values = c("amb" = Pastel1Palette[6], "ele" = Pastel1Palette[8]),
                           labels=c(expression(aCO[2]), expression(eCO[2])))+
         scale_shape_manual(name="Treatment",
                            values=c("amb"=22,
@@ -51,4 +51,5 @@ plot_plant_resorption_coefficients <- function(plant_p_retranslocation_coefficie
     pdf("output/si_figures/si_figure3.pdf", height=4,width=6)
     plot(p2)
     dev.off()
+    
 }
