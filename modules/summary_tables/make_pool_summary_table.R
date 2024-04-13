@@ -80,7 +80,6 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Canopy P Pool"] <- min(year(canopy_p_pool$Date))    
     treatDF$year_end[treatDF$terms == "Canopy P Pool"] <- max(year(canopy_p_pool$Date))    
     treatDF$timepoint[treatDF$terms == "Canopy P Pool"] <- length(unique(canopy_p_pool$Date))  
-    treatDF$notes[treatDF$terms == "Canopy P Pool"] <- "used monthly concentration values to extrapolate"
 
     ### Forestfloor Leaf litter
     out <- summaryBy(leaflitter_p_pool~Ring,data=leaflitter_p_pool,FUN=mean,keep.names=T,na.rm=T)
@@ -88,40 +87,35 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Forestfloor Leaf Litter P Pool"] <- min(year(leaflitter_p_pool$Date))    
     treatDF$year_end[treatDF$terms == "Forestfloor Leaf Litter P Pool"] <- max(year(leaflitter_p_pool$Date))    
     treatDF$timepoint[treatDF$terms == "Forestfloor Leaf Litter P Pool"] <- length(unique(leaflitter_p_pool$Date))  
-    treatDF$notes[treatDF$terms == "Forestfloor Leaf Litter P Pool"] <- "calculated based on leaflitter p concentration and leaflitter pool"
-    
+
     ### Wood P 
     out <- summaryBy(wood_p_pool~Ring,data=wood_p_pool,FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Total Wood P Pool", 2:7] <- out$wood_p_pool
     treatDF$year_start[treatDF$terms == "Total Wood P Pool"] <- min(year(wood_p_pool$Date))    
     treatDF$year_end[treatDF$terms == "Total Wood P Pool"] <- max(year(wood_p_pool$Date))    
     treatDF$timepoint[treatDF$terms == "Total Wood P Pool"] <- length(unique(wood_p_pool$Date)) 
-    treatDF$notes[treatDF$terms == "Total Wood P Pool"] <- "Based on single time point concentration measurement"
-    
+
     ### Sapwood P 
     out <- summaryBy(wood_p_pool~Ring,data=sapwood_p_pool,FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Sapwood P Pool", 2:7] <- out$wood_p_pool
     treatDF$year_start[treatDF$terms == "Sapwood P Pool"] <- min(year(wood_p_pool$Date))    
     treatDF$year_end[treatDF$terms == "Sapwood P Pool"] <- max(year(wood_p_pool$Date))    
     treatDF$timepoint[treatDF$terms == "Sapwood P Pool"] <- length(unique(wood_p_pool$Date)) 
-    treatDF$notes[treatDF$terms == "Sapwood P Pool"] <- "Based on single time point concentration measurement"
-    
+
     ### Heartwood P 
     out <- summaryBy(wood_p_pool~Ring,data=heartwood_p_pool,FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Heartwood P Pool", 2:7] <- out$wood_p_pool
     treatDF$year_start[treatDF$terms == "Heartwood P Pool"] <- min(year(wood_p_pool$Date))    
     treatDF$year_end[treatDF$terms == "Heartwood P Pool"] <- max(year(wood_p_pool$Date))    
     treatDF$timepoint[treatDF$terms == "Heartwood P Pool"] <- length(unique(wood_p_pool$Date)) 
-    treatDF$notes[treatDF$terms == "Heartwood P Pool"] <- "Based on single time point concentration measurement"
-    
+
     ### Standing dead
     out <- summaryBy(wood_p_pool~Ring,data=standing_dead_p_pool,FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Standing Dead Wood P Pool", 2:7] <- out$wood_p_pool
     treatDF$year_start[treatDF$terms == "Standing Dead Wood P Pool"] <- min(year(wood_p_pool$Date))    
     treatDF$year_end[treatDF$terms == "Standing Dead Wood P Pool"] <- max(year(wood_p_pool$Date))    
     treatDF$timepoint[treatDF$terms == "Standing Dead Wood P Pool"] <- length(unique(wood_p_pool$Date)) 
-    treatDF$notes[treatDF$terms == "Standing Dead Wood P Pool"] <- "Based on single time point concentration measurement"
-    
+
     
     ### Fine root P pool
     out <- summaryBy(fineroot_p_pool~Ring,data=fineroot_p_pool,FUN=mean,keep.names=T,na.rm=T)
@@ -129,24 +123,21 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Fine Root P Pool"] <- min(year(fineroot_p_pool$Date))    
     treatDF$year_end[treatDF$terms == "Fine Root P Pool"] <- max(year(fineroot_p_pool$Date))    
     treatDF$timepoint[treatDF$terms == "Fine Root P Pool"] <- length(unique(fineroot_p_pool$Date))  
-    treatDF$notes[treatDF$terms == "Fine Root P Pool"] <- "Top 30 cm"
-    
+
     ### Coarse root P pool
     out <- summaryBy(coarse_root_p_pool~Ring,data=coarse_root_p_pool,FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Coarse Root P Pool", 2:7] <- out$coarse_root_p_pool
     treatDF$year_start[treatDF$terms == "Coarse Root P Pool"] <- min(year(coarse_root_p_pool$Date))    
     treatDF$year_end[treatDF$terms == "Coarse Root P Pool"] <- max(year(coarse_root_p_pool$Date))    
     treatDF$timepoint[treatDF$terms == "Coarse Root P Pool"] <- length(unique(coarse_root_p_pool$Date))  
-    treatDF$notes[treatDF$terms == "Coarse Root P Pool"] <- "Allometric rlt with DBH"
-    
+
     ### Understorey P pool
     out <- summaryBy(understorey_p_pool~Ring,data=understorey_p_pool,FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Understorey P Pool", 2:7] <- out$understorey_p_pool
     treatDF$year_start[treatDF$terms == "Understorey P Pool"] <- min(year(understorey_p_pool$Date))    
     treatDF$year_end[treatDF$terms == "Understorey P Pool"] <- max(year(understorey_p_pool$Date))    
     treatDF$timepoint[treatDF$terms == "Understorey P Pool"] <- length(unique(understorey_p_pool$Date))  
-    treatDF$notes[treatDF$terms == "Understorey P Pool"] <- "Used harvest estimate of C pool"
-    
+
     ### Understorey Litter P pool
     if (norm == "unnormalized") {
       out <- summaryBy(dead_p_pool~Ring,data=understorey_p_pool,FUN=mean,keep.names=T,na.rm=T)
@@ -154,7 +145,6 @@ make_pool_summary_table <- function(norm,
       treatDF$year_start[treatDF$terms == "Understorey Litter P Pool"] <- min(year(understorey_p_pool$Date))    
       treatDF$year_end[treatDF$terms == "Understorey Litter P Pool"] <- max(year(understorey_p_pool$Date))    
       treatDF$timepoint[treatDF$terms == "Understorey Litter P Pool"] <- length(unique(understorey_p_pool$Date))  
-      treatDF$notes[treatDF$terms == "Understorey Litter P Pool"] <- "Used harvest estimate of C pool"
     }
     
 
@@ -165,56 +155,49 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Microbial P Pool 0-10cm"] <- min(year(microbial_p_pool$Date[microbial_p_pool$Depth=="0_10"]))    
     treatDF$year_end[treatDF$terms == "Microbial P Pool 0-10cm"] <- max(year(microbial_p_pool$Date[microbial_p_pool$Depth=="0_10"]))    
     treatDF$timepoint[treatDF$terms == "Microbial P Pool 0-10cm"] <- length(unique(microbial_p_pool$Date[microbial_p_pool$Depth=="0_10"]))  
-    treatDF$notes[treatDF$terms == "Microbial P Pool 0-10cm"] <- "Top 10 cm"
-    
+
     ### Microbial P pool
     out <- summaryBy(microbial_p_g_m2~Ring,data=microbial_p_pool[microbial_p_pool$Depth=="10_30",],FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Microbial P Pool 10-30cm", 2:7] <- out$microbial_p_g_m2
     treatDF$year_start[treatDF$terms == "Microbial P Pool 10-30cm"] <- min(year(microbial_p_pool$Date[microbial_p_pool$Depth=="10_30"]))    
     treatDF$year_end[treatDF$terms == "Microbial P Pool 10-30cm"] <- max(year(microbial_p_pool$Date[microbial_p_pool$Depth=="10_30"]))    
     treatDF$timepoint[treatDF$terms == "Microbial P Pool 10-30cm"] <- length(unique(microbial_p_pool$Date[microbial_p_pool$Depth=="10_30"]))  
-    treatDF$notes[treatDF$terms == "Microbial P Pool 10-30cm"] <- "Top 10-30 cm"
-    
+
     ### Microbial P pool
     out <- summaryBy(microbial_p_g_m2~Ring,data=microbial_p_pool[microbial_p_pool$Depth=="transition",],FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Microbial P Pool 30-60cm", 2:7] <- out$microbial_p_g_m2
     treatDF$year_start[treatDF$terms == "Microbial P Pool 30-60cm"] <- min(year(microbial_p_pool$Date[microbial_p_pool$Depth=="transition"]))    
     treatDF$year_end[treatDF$terms == "Microbial P Pool 30-60cm"] <- max(year(microbial_p_pool$Date[microbial_p_pool$Depth=="transition"]))    
     treatDF$timepoint[treatDF$terms == "Microbial P Pool 30-60cm"] <- length(unique(microbial_p_pool$Date[microbial_p_pool$Depth=="transition"]))  
-    treatDF$notes[treatDF$terms == "Microbial P Pool 30-60cm"] <- "Top 10 cm"
-    
+
     ### Soil Phosphate P pool
     out <- summaryBy(soil_phosphate_p_g_m2~Ring,data=soil_phosphate_pool[soil_phosphate_pool$Depth=="0_10",],FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Soil Phosphate P Pool 0-10cm", 2:7] <- out$soil_phosphate_p_g_m2
     treatDF$year_start[treatDF$terms == "Soil Phosphate P Pool 0-10cm"] <- min(year(soil_phosphate_pool$Date[soil_phosphate_pool$Depth=="0_10"]))    
     treatDF$year_end[treatDF$terms == "Soil Phosphate P Pool 0-10cm"] <- max(year(soil_phosphate_pool$Date[soil_phosphate_pool$Depth=="0_10"]))    
     treatDF$timepoint[treatDF$terms == "Soil Phosphate P Pool 0-10cm"] <- length(unique(soil_phosphate_pool$Date[soil_phosphate_pool$Depth=="0_10"]))  
-    treatDF$notes[treatDF$terms == "Soil Phosphate P Pool 0-10cm"] <- "Top 10 cm"
-    
+
     ### Soil Phosphate P pool
     out <- summaryBy(soil_phosphate_p_g_m2~Ring,data=soil_phosphate_pool[soil_phosphate_pool$Depth=="10_30",],FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Soil Phosphate P Pool 10-30cm", 2:7] <- out$soil_phosphate_p_g_m2
     treatDF$year_start[treatDF$terms == "Soil Phosphate P Pool 10-30cm"] <- min(year(soil_phosphate_pool$Date[soil_phosphate_pool$Depth=="10_30"]))    
     treatDF$year_end[treatDF$terms == "Soil Phosphate P Pool 10-30cm"] <- max(year(soil_phosphate_pool$Date[soil_phosphate_pool$Depth=="10_30"]))    
     treatDF$timepoint[treatDF$terms == "Soil Phosphate P Pool 10-30cm"] <- length(unique(soil_phosphate_pool$Date[soil_phosphate_pool$Depth=="10_30"]))  
-    treatDF$notes[treatDF$terms == "Soil Phosphate P Pool 10-30cm"] <- "Top 10 cm"
-    
+
     ### Soil Phosphate P pool
     out <- summaryBy(soil_phosphate_p_g_m2~Ring,data=soil_phosphate_pool[soil_phosphate_pool$Depth=="transition",],FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Soil Phosphate P Pool 30-60cm", 2:7] <- out$soil_phosphate_p_g_m2
     treatDF$year_start[treatDF$terms == "Soil Phosphate P Pool 30-60cm"] <- min(year(soil_phosphate_pool$Date[soil_phosphate_pool$Depth=="transition"]))    
     treatDF$year_end[treatDF$terms == "Soil Phosphate P Pool 30-60cm"] <- max(year(soil_phosphate_pool$Date[soil_phosphate_pool$Depth=="transition"]))    
     treatDF$timepoint[treatDF$terms == "Soil Phosphate P Pool 30-60cm"] <- length(unique(soil_phosphate_pool$Date[soil_phosphate_pool$Depth=="transition"]))  
-    treatDF$notes[treatDF$terms == "Soil Phosphate P Pool 30-60cm"] <- "30-60"
-    
+
     ### Soil P pool
     out <- summaryBy(soil_p_g_m2~Ring,data=soil_p_pool[soil_p_pool$Depth=="0_10",],FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Soil P Pool 0-10cm", 2:7] <- out$soil_p_g_m2
     treatDF$year_start[treatDF$terms == "Soil P Pool 0-10cm"] <- min(year(soil_p_pool$Date[soil_p_pool$Depth=="0_10"]))    
     treatDF$year_end[treatDF$terms == "Soil P Pool 0-10cm"] <- max(year(soil_p_pool$Date[soil_p_pool$Depth=="0_10"]))    
     treatDF$timepoint[treatDF$terms == "Soil P Pool 0-10cm"] <- length(unique(soil_p_pool$Date[soil_p_pool$Depth=="0_10"]))  
-    treatDF$notes[treatDF$terms == "Soil P Pool 0-10cm"] <- "Averaged across all P forms"
-    
+
     
     ### Soil P pool
     out <- summaryBy(soil_p_g_m2~Ring,data=soil_p_pool[soil_p_pool$Depth=="10_30",],FUN=mean,keep.names=T,na.rm=T)
@@ -222,8 +205,7 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Soil P Pool 10-30cm"] <- min(year(soil_p_pool$Date[soil_p_pool$Depth=="10_30"]))    
     treatDF$year_end[treatDF$terms == "Soil P Pool 10-30cm"] <- max(year(soil_p_pool$Date[soil_p_pool$Depth=="10_30"]))    
     treatDF$timepoint[treatDF$terms == "Soil P Pool 10-30cm"] <- length(unique(soil_p_pool$Date[soil_p_pool$Depth=="10_30"]))  
-    treatDF$notes[treatDF$terms == "Soil P Pool 10-30cm"] <- "Averaged across all P forms"
-    
+
     
     ### Soil P pool
     out <- summaryBy(soil_p_g_m2~Ring,data=soil_p_pool[soil_p_pool$Depth=="transition",],FUN=mean,keep.names=T,na.rm=T)
@@ -231,8 +213,7 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Soil P Pool 30-60cm"] <- min(year(soil_p_pool$Date[soil_p_pool$Depth=="transition"]))    
     treatDF$year_end[treatDF$terms == "Soil P Pool 30-60cm"] <- max(year(soil_p_pool$Date[soil_p_pool$Depth=="transition"]))    
     treatDF$timepoint[treatDF$terms == "Soil P Pool 30-60cm"] <- length(unique(soil_p_pool$Date[soil_p_pool$Depth=="transition"]))  
-    treatDF$notes[treatDF$terms == "Soil P Pool 30-60cm"] <- "Averaged across all P forms"
-    
+
     
     ### Soil Inorg P pool
     out <- summaryBy(soil_inorganic_p_g_m2~Ring,data=soil_inorganic_p_pool[soil_inorganic_p_pool$Depth=="0_10",],FUN=mean,keep.names=T,na.rm=T)
@@ -240,8 +221,7 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Soil Inorg P Pool 0-10cm"] <- min(year(soil_inorganic_p_pool$Date[soil_inorganic_p_pool$Depth=="0_10"]))    
     treatDF$year_end[treatDF$terms == "Soil Inorg P Pool 0-10cm"] <- max(year(soil_inorganic_p_pool$Date[soil_inorganic_p_pool$Depth=="0_10"]))    
     treatDF$timepoint[treatDF$terms == "Soil Inorg P Pool 0-10cm"] <- length(unique(soil_inorganic_p_pool$Date[soil_inorganic_p_pool$Depth=="0_10"]))  
-    treatDF$notes[treatDF$terms == "Soil Inorg P Pool 0-10cm"] <- "Averaged across all P forms"
-    
+
     
     ### Soil Inorg P pool
     out <- summaryBy(soil_inorganic_p_g_m2~Ring,data=soil_inorganic_p_pool[soil_inorganic_p_pool$Depth=="10_30",],FUN=mean,keep.names=T,na.rm=T)
@@ -249,8 +229,7 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Soil Inorg P Pool 10-30cm"] <- min(year(soil_inorganic_p_pool$Date[soil_inorganic_p_pool$Depth=="10_30"]))    
     treatDF$year_end[treatDF$terms == "Soil Inorg P Pool 10-30cm"] <- max(year(soil_inorganic_p_pool$Date[soil_inorganic_p_pool$Depth=="10_30"]))    
     treatDF$timepoint[treatDF$terms == "Soil Inorg P Pool 10-30cm"] <- length(unique(soil_inorganic_p_pool$Date[soil_inorganic_p_pool$Depth=="10_30"]))  
-    treatDF$notes[treatDF$terms == "Soil Inorg P Pool 10-30cm"] <- "Averaged across all P forms"
-    
+
     
     ### Soil inorg_P pool
     out <- summaryBy(soil_inorganic_p_g_m2~Ring,data=soil_inorganic_p_pool[soil_inorganic_p_pool$Depth=="transition",],FUN=mean,keep.names=T,na.rm=T)
@@ -258,8 +237,7 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Soil Inorg P Pool 30-60cm"] <- min(year(soil_inorganic_p_pool$Date[soil_inorganic_p_pool$Depth=="transition"]))    
     treatDF$year_end[treatDF$terms == "Soil Inorg P Pool 30-60cm"] <- max(year(soil_inorganic_p_pool$Date[soil_inorganic_p_pool$Depth=="transition"]))    
     treatDF$timepoint[treatDF$terms == "Soil Inorg P Pool 30-60cm"] <- length(unique(soil_inorganic_p_pool$Date[soil_inorganic_p_pool$Depth=="transition"]))  
-    treatDF$notes[treatDF$terms == "Soil Inorg P Pool 30-60cm"] <- "Averaged across all P forms"
-    
+
     
     ### Soil Org P pool
     out <- summaryBy(soil_organic_p_g_m2~Ring,data=soil_organic_p_pool[soil_organic_p_pool$Depth=="0_10",],FUN=mean,keep.names=T,na.rm=T)
@@ -267,8 +245,7 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Soil Org P Pool 0-10cm"] <- min(year(soil_organic_p_pool$Date[soil_organic_p_pool$Depth=="0_10"]))    
     treatDF$year_end[treatDF$terms == "Soil Org P Pool 0-10cm"] <- max(year(soil_organic_p_pool$Date[soil_organic_p_pool$Depth=="0_10"]))    
     treatDF$timepoint[treatDF$terms == "Soil Org P Pool 0-10cm"] <- length(unique(soil_organic_p_pool$Date[soil_organic_p_pool$Depth=="0_10"]))  
-    treatDF$notes[treatDF$terms == "Soil Org P Pool 0-10cm"] <- "Averaged across all P forms"
-    
+
     
     ### Soil Org P pool
     out <- summaryBy(soil_organic_p_g_m2~Ring,data=soil_organic_p_pool[soil_organic_p_pool$Depth=="10_30",],FUN=mean,keep.names=T,na.rm=T)
@@ -276,8 +253,7 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Soil Org P Pool 10-30cm"] <- min(year(soil_organic_p_pool$Date[soil_organic_p_pool$Depth=="10_30"]))    
     treatDF$year_end[treatDF$terms == "Soil Org P Pool 10-30cm"] <- max(year(soil_organic_p_pool$Date[soil_organic_p_pool$Depth=="10_30"]))    
     treatDF$timepoint[treatDF$terms == "Soil Org P Pool 10-30cm"] <- length(unique(soil_organic_p_pool$Date[soil_organic_p_pool$Depth=="10_30"]))  
-    treatDF$notes[treatDF$terms == "Soil Org P Pool 10-30cm"] <- "Averaged across all P forms"
-    
+
     
     ### Soil Org P pool
     out <- summaryBy(soil_organic_p_g_m2~Ring,data=soil_organic_p_pool[soil_organic_p_pool$Depth=="transition",],FUN=mean,keep.names=T,na.rm=T)
@@ -285,8 +261,7 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Soil Org P Pool 30-60cm"] <- min(year(soil_organic_p_pool$Date[soil_organic_p_pool$Depth=="transition"]))    
     treatDF$year_end[treatDF$terms == "Soil Org P Pool 30-60cm"] <- max(year(soil_organic_p_pool$Date[soil_organic_p_pool$Depth=="transition"]))    
     treatDF$timepoint[treatDF$terms == "Soil Org P Pool 30-60cm"] <- length(unique(soil_organic_p_pool$Date[soil_organic_p_pool$Depth=="transition"]))  
-    treatDF$notes[treatDF$terms == "Soil Org P Pool 30-60cm"] <- "Averaged across all P forms"
-    
+
     
     
     ### Exchangeable Pi Pool
@@ -295,32 +270,28 @@ make_pool_summary_table <- function(norm,
     treatDF$year_start[treatDF$terms == "Exchangeable Pi Pool"] <- min(soil_hedley_p_concentration$Year)    
     treatDF$year_end[treatDF$terms == "Exchangeable Pi Pool"] <- max(soil_hedley_p_concentration$Year)   
     treatDF$timepoint[treatDF$terms == "Exchangeable Pi Pool"] <- length(unique(soil_hedley_p_concentration$Year))  
-    treatDF$notes[treatDF$terms == "Exchangeable Pi Pool"] <- "unclear depth info"
-    
+
     ### Exchangeable Po Pool
     out <- summaryBy(F1_2_Po_Exchangeable~Ring,data=soil_p_pool_hedley,FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Exchangeable Po Pool", 2:7] <- out$F1_2_Po_Exchangeable
     treatDF$year_start[treatDF$terms == "Exchangeable Po Pool"] <- min(soil_hedley_p_concentration$Year)    
     treatDF$year_end[treatDF$terms == "Exchangeable Po Pool"] <- max(soil_hedley_p_concentration$Year)   
     treatDF$timepoint[treatDF$terms == "Exchangeable Po Pool"] <- length(unique(soil_hedley_p_concentration$Year))  
-    treatDF$notes[treatDF$terms == "Exchangeable Po Pool"] <- "unclear depth info"
-    
+
     ### Moderately labile Po Pool
     out <- summaryBy(F3_Po_Moderately_labile~Ring,data=soil_p_pool_hedley,FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Moderately labile Po Pool", 2:7] <- out$F3_Po_Moderately_labile
     treatDF$year_start[treatDF$terms == "Moderately labile Po Pool"] <- min(soil_hedley_p_concentration$Year)    
     treatDF$year_end[treatDF$terms == "Moderately labile Po Pool"] <- max(soil_hedley_p_concentration$Year)   
     treatDF$timepoint[treatDF$terms == "Moderately labile Po Pool"] <- length(unique(soil_hedley_p_concentration$Year))  
-    treatDF$notes[treatDF$terms == "Moderately labile Po Pool"] <- "unclear depth info"
-   
+
     ### Occluded P Pool
     out <- summaryBy(F5_6_Occluded~Ring,data=soil_p_pool_hedley,FUN=mean,keep.names=T,na.rm=T)
     treatDF[treatDF$terms == "Occluded P Pool", 2:7] <- out$F5_6_Occluded
     treatDF$year_start[treatDF$terms == "Occluded P Pool"] <- min(soil_hedley_p_concentration$Year)    
     treatDF$year_end[treatDF$terms == "Occluded P Pool"] <- max(soil_hedley_p_concentration$Year)   
     treatDF$timepoint[treatDF$terms == "Occluded P Pool"] <- length(unique(soil_hedley_p_concentration$Year))  
-    treatDF$notes[treatDF$terms == "Occluded P Pool"] <- "unclear depth info"
-    
+
     
     ### given that the sum of inorganic P and organic P pool does not add up to total, 
     ### the easiest solution is the revise the total by summing the two.
