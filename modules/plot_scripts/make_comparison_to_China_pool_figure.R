@@ -77,7 +77,7 @@ make_comparison_to_China_pool_figure <- function(soil_p_concentration) {
                           labels=c("0-5th", "5-25th", "25-50th", "50-75th", "75-95th", "95-100th"),
                           values=spectral.colors,
                           guide=guide_legend(nrow=6))+
-        geom_vline(xintercept=37.7, col="black", size = 1.0)+
+        geom_vline(xintercept=33.41, col="black", size = 1.0)+
         theme_linedraw() +
         theme(panel.grid.minor=element_blank(),
               axis.text.x=element_text(size=10),
@@ -108,7 +108,7 @@ make_comparison_to_China_pool_figure <- function(soil_p_concentration) {
                           labels=c("0-5th", "5-25th", "25-50th", "50-75th", "75-95th", "95-100th"),
                           values=spectral.colors,
                           guide=guide_legend(nrow=6))+
-        geom_vline(xintercept=1.7, col="black", size = 1.0)+
+        geom_vline(xintercept=1.6, col="black", size = 1.0)+
         theme_linedraw() +
         theme(panel.grid.minor=element_blank(),
               axis.text.x=element_text(size=10),

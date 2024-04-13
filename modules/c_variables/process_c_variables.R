@@ -45,9 +45,9 @@ process_c_variables <- function() {
                                             soil_bulk_density=soil_bulk_density,
                                             root.size="intermediate")
     
-    fineroot_c_pool3 <- make_fineroot_c_pool(back.calculate=T,
-                                             soil_bulk_density=soil_bulk_density,
-                                             root.size="small")
+    #fineroot_c_pool3 <- make_fineroot_c_pool(back.calculate=T,
+    #                                         soil_bulk_density=soil_bulk_density,
+    #                                         root.size="small")
     
     
     #### Understorey aboveground biomass 

@@ -1418,8 +1418,6 @@ plot_CO2_effect_on_the_same_figure <- function(budgetDF,
     
     
     
-    
-    
     p91 <- ggplot(plotDF6) +  
         geom_vline(xintercept=0)+
         geom_segment(aes(y=terms, x=diff-diff_cf, 
@@ -1465,8 +1463,6 @@ plot_CO2_effect_on_the_same_figure <- function(budgetDF,
                            values=c("pos"=cbPalette[4], 
                                     "neg"=cbPalette[7], 
                                     "neut"="black"))
-    
-    plot(p91)
     
     
     ##################

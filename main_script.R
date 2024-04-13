@@ -47,7 +47,7 @@ source("R/prepare.R")
 ##### Instead, we are only reading the data, as below.
 
 #### no longer needed (delete once all code check completed)
-# process_c_variables()
+#process_c_variables()
 
 
 ############################## Read in C-related pools and fluxes ###############################
@@ -148,7 +148,7 @@ coarse_root_c_flux <- read.csv("data/processed/coarse_root_c_production_flux.csv
 #####
 ##### Step 2: Generate P concentrations for all variables based on raw data
 #####
-process_p_concentration_variables()
+#process_p_concentration_variables()
 
 ############################## Soil ###############################
 

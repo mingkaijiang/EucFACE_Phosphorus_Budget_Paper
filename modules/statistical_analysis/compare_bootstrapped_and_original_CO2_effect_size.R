@@ -905,12 +905,5 @@ compare_bootstrapped_and_original_CO2_effect_size <- function(summary_table_conc
     
     
     
-  
-    
-    
- 
-    
-    
-    
     
 }
