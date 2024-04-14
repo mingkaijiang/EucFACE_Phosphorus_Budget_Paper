@@ -997,6 +997,9 @@ make_figure2 <- function(inDF) {
     sumDF <- summaryBy(value~Ring+Trt, data=availpDF, FUN=sum, na.rm=T, keep.names=T)
     trtDF <- summaryBy(value~Trt, data=sumDF, FUN=c(mean,sd), na.rm=T, keep.names=T)
 
+    
+    sumDF <- summaryBy(value~Ring+Trt, data=vegDF, FUN=sum, na.rm=T, keep.names=T)
+    trtDF <- summaryBy(value~Trt, data=sumDF, FUN=c(mean,sd), na.rm=T, keep.names=T)
 }
 
 

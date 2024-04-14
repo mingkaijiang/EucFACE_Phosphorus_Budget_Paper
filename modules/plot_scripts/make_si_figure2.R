@@ -12,7 +12,7 @@ make_si_figure2 <- function() {
     xuDF$Soil_microbial_biomass_phosphorus <- as.numeric(xuDF$Soil_microbial_biomass_phosphorus)
     xuDF$Total_organic_phosphorus <- as.numeric(xuDF$Total_organic_phosphorus)
     
-    ### prepare unit from mmol kg-1 to %
+    ### convert unit
     xuDF$Soil_organic_carbon <- xuDF$Soil_organic_carbon * 12.0 / 10000
     xuDF$Soil_microbial_biomass_carbon <- xuDF$Soil_microbial_biomass_carbon * 12.0 / 10000
     xuDF$Soil_microbial_biomass_phosphorus <- xuDF$Soil_microbial_biomass_phosphorus * 31.0 / 10000
@@ -20,24 +20,8 @@ make_si_figure2 <- function() {
     
     xuDF$MicrobeP_Frac <- with(xuDF,Soil_microbial_biomass_phosphorus/Total_organic_phosphorus*100)
     
-    #xuDF1 <- subset(xuDF, Depth%in%c("0~10",
-    #                                 "0~3", "0~2.8", "0~2.7",
-    #                                 "0~2.3", "0~5", "4~12",
-    #                                 "3~10", "6~12", "3~11", 
-    #                                 "2~6", "1.5~5", "0~2.5",
-    #                                 "2.5~5", "5~10", "2.5~7.5",
-    #                                 "0~2", "2~10", "0~7.5",
-    #                                 "Surface (0~10)","1~3", 
-    #                                 "0~8","0~6", "5~7.5", "7.5~10",
-    #                                 "3.6~5", "2~3.6", "3~4", "0~11",
-    #                                 "4~10","0.5~11", "0~9", "0~4", "1",
-    #                                 "3", "8"))
-    
-    
     
     xuDF1 <- subset(xuDF, !Depth%in%c("organic layer",
-                                     #"30~40", "40~50", "50~60",
-                                     #"20~40", 
                                      "Not mentioned", "L layer",
                                      "F layer", "4~0", "organic horizon", 
                                      "mineral horizon", "O layer", "FH layer"))
@@ -120,11 +104,7 @@ make_si_figure2 <- function() {
     ### output
     pdf(paste0("output/si_figures/si_figure2.pdf"), 
         width=6, height=4)
-    ggdraw(p2) #+ 
-        #draw_plot(p3, .45, .47, .5, .5) 
-    #plot_grid(p3, p2, rel_widths=c(1,1))
-    #grid.text(grid.labs,x = c(0.08, 0.92), y = c(0.9, 0.9),
-    #          gp=gpar(fontsize=16, col="black", fontface="bold"))
+    ggdraw(p2) 
     dev.off()
     
     

@@ -20,7 +20,7 @@
 ####
 #### 6. Make plots
 ####
-#### 7. Analyze time series data
+#### 7. Analyze time series data with linear mixed-effect model
 ####
 #### 8. Bootstrapping method
 
@@ -43,8 +43,9 @@ source("R/prepare.R")
 ##### For all C pools, unit in g C m-2,
 ##### For all C fluxes, output rate in unit of mg C m-2 d-1, and the period over which this rate applies.
 ##### Almost all data has been processed in the previous C budget, 
-##### so here we do not report the data processing steps (process_c_variables).
-##### Instead, we are only reading the data, as below.
+##### so here we do not repeat the data processing steps.
+##### Detailed information can be found in the function process_c_variables().
+##### Instead, we are only reading in the data, as below.
 
 #### no longer needed (delete once all code check completed)
 #process_c_variables()
@@ -690,7 +691,9 @@ plot_ed_figure1()
 
 ########################################################################################## 
 ########################################################################################## 
-##### Step 7: Analyze time-series (long-term vs short-term, seasonal variation)
+##### Step 7: Analyze time-series data with linear mixed-effects model
+#####         with Date and CO2 factors considered.
+#####         Output is a series of csv files containing all statistical results
 analyze_time_effect_on_concentration(canopy_p_concentration=canopy_p_concentration,
                                      sapwood_p_concentration=sapwood_p_concentration,
                                      fineroot_p_concentration=fineroot_p_concentration,
