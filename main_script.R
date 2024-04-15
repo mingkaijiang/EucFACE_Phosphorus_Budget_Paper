@@ -760,7 +760,7 @@ plot_fineroot_p_concentration_time_sequence(fineroot_p_concentration=fineroot_p_
 ########################################################################################## 
 ########################################################################################## 
 #####
-##### Step 7: Making P budgeting variables and tables, by using bootstrapping method
+##### Step 8: Making P budgeting variables and tables, by using bootstrapping method
 #####
 
 ############################## summary tables ###############################
